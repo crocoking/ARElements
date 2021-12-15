@@ -1,24 +1,23 @@
-﻿using System;
 using UnityEngine;
 
-namespace ARElements
+namespace ARElements{
+
+public abstract class BaseCanvasAnnotationTransition : MonoBehaviour
 {
-    public abstract class BaseCanvasAnnotationTransition : MonoBehaviour
-    {
-        public AnnotationViewSize viewSize
-        {
-            get
-            {
-                return m_ViewSize;
-            }
-            protected set
-            {
-                m_ViewSize = value;
-            }
-        }
+	private AnnotationViewSize m_ViewSize;
 
-        public abstract void TransitionToViewSize(AnnotationData annotationData, AnnotationViewSize nextAnnotationViewSize);
+	public AnnotationViewSize viewSize
+	{
+		get
+		{
+			return m_ViewSize;
+		}
+		protected set
+		{
+			m_ViewSize = value;
+		}
+	}
 
-        private AnnotationViewSize m_ViewSize;
-    }
+	public abstract void TransitionToViewSize(AnnotationData annotationData, AnnotationViewSize nextAnnotationViewSize);
+}
 }

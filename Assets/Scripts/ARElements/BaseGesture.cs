@@ -1,89 +1,87 @@
-﻿using System;
-using System.Diagnostics;
+using System;
 using UnityEngine;
 
 namespace ARElements
 {
-    public abstract class BaseGesture
-    {
-        public BaseGesture(BaseGestureRecognizer recognizer)
-        {
-            Recognizer = recognizer;
-        }
 
-        //[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public event Action<BaseGesture> onStart;
+	public abstract class BaseGesture
+	{
+		public bool hasStarted { get; private set; }
 
-        public event Action<BaseGesture> onUpdated;
+		public bool justStarted { get; private set; }
 
-        public event Action<BaseGesture> onFinished;
+		public bool hasFinished { get; private set; }
 
-        public bool hasStarted { get; private set; }
+		public bool wasCancelled { get; private set; }
 
-        public bool justStarted { get; private set; }
+		public GameObject targetObject { get; protected set; }
 
-        public bool hasFinished { get; private set; }
+		protected BaseGestureRecognizer Recognizer { get; private set; }
 
-        public bool wasCancelled { get; private set; }
+		public event Action<BaseGesture> onStart;
 
-        public GameObject targetObject { get; private set; }
+		public event Action<BaseGesture> onUpdated;
 
-        protected BaseGestureRecognizer Recognizer { get; private set; }
+		public event Action<BaseGesture> onFinished;
 
-        public void Update()
-        {
-            if(!hasStarted && CanStart())
-            {
-                Start();
-                return;
-            }
-            justStarted = false;
-            if(hasStarted && UpdateGesture() && onUpdated != null)
-            {
-                onUpdated(this);
-            }
-        }
+		public BaseGesture(BaseGestureRecognizer recognizer)
+		{
+			Recognizer = recognizer;
+		}
 
-        protected abstract bool CanStart();
+		public void Update()
+		{
+			if (!hasStarted && CanStart())
+			{
+				Start();
+				return;
+			}
+			justStarted = false;
+			if (hasStarted && UpdateGesture() && this.onUpdated != null)
+			{
+				this.onUpdated(this);
+			}
+		}
 
-        protected abstract void OnStart();
+		protected abstract bool CanStart();
 
-        protected abstract bool UpdateGesture();
+		protected abstract void OnStart();
 
-        protected abstract void OnCancel();
+		protected abstract bool UpdateGesture();
 
-        protected abstract void OnFinish();
+		protected abstract void OnCancel();
 
-        public void Cancel()
-        {
-            wasCancelled = true;
-            OnCancel();
-            
-        }
+		protected abstract void OnFinish();
 
-        protected void Complete()
-        {
-            hasFinished = true;
-            if(hasStarted)
-            {
-                OnFinish();
-                if(onFinished != null)
-                {
-                    onFinished(this);
-                }
-            }
-        }
+		public void Cancel()
+		{
+			wasCancelled = true;
+			OnCancel();
+			Complete();
+		}
 
-        private void Start()
-        {
-            hasStarted = true;
-            justStarted = true;
-            OnStart();
-            if(onStart != null)
-            {
-                onStart(this);
-            }
-        }
+		protected void Complete()
+		{
+			hasFinished = true;
+			if (hasStarted)
+			{
+				OnFinish();
+				if (this.onFinished != null)
+				{
+					this.onFinished(this);
+				}
+			}
+		}
 
-    }
+		private void Start()
+		{
+			hasStarted = true;
+			justStarted = true;
+			OnStart();
+			if (this.onStart != null)
+			{
+				this.onStart(this);
+			}
+		}
+	}
 }

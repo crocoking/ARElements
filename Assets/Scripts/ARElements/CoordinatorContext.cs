@@ -1,31 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ARElements
-{
-    public class CoordinatorContext : MonoBehaviour
-    {
-        private Dictionary<Type, MonoBehaviour> m_Coordinators = new Dictionary<Type, MonoBehaviour>();
+namespace ARElements{
 
-        public T GetCoordinator<T>() where T:MonoBehaviour
-        {
-            T t = (T)((object)null);
-            Type typeFromHandle = typeof(T);
-            MonoBehaviour monoBehaviour;
-            if(m_Coordinators.TryGetValue(typeFromHandle, out monoBehaviour))
-            {
-                t = (monoBehaviour as T);
-            }
-            if(t == null)
-            {
-                t = base.GetComponent<T>();
-                if(t != null)
-                {
-                    m_Coordinators[typeFromHandle] = t;
-                }
-            }
-            return t;
-        }
-    }
+public class CoordinatorContext : MonoBehaviour
+{
+	private Dictionary<Type, MonoBehaviour> m_Coordinators = new Dictionary<Type, MonoBehaviour>();
+
+	public T GetCoordinator<T>() where T : MonoBehaviour
+	{
+		T val = (T)null;
+		Type typeFromHandle = typeof(T);
+		if (m_Coordinators.TryGetValue(typeFromHandle, out var value))
+		{
+			val = value as T;
+		}
+		if ((UnityEngine.Object)val == (UnityEngine.Object)null)
+		{
+			val = GetComponent<T>();
+			if ((UnityEngine.Object)val != (UnityEngine.Object)null)
+			{
+				m_Coordinators[typeFromHandle] = val;
+			}
+		}
+		return val;
+	}
+}
 }

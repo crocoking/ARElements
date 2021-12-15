@@ -1,69 +1,51 @@
-﻿using System;
 using System.Collections.Generic;
 using GoogleARCore;
 using UnityEngine;
 
 namespace ARElements
 {
-    public class AndroidPlane : ITrackedPlane
-    {
-        public AndroidPlane(DetectedPlane trackedPlane)
-        {
-            this.trackedPlane = trackedPlane;
-        }
 
-        public DetectedPlane trackedPlane { get; private set; }
+	public class AndroidPlane : ITrackedPlane
+	{
+		private List<Vector3> m_BoundaryList = new List<Vector3>();
 
-        public Vector3 position
-        {
-            get
-            {
-                return this.trackedPlane.CenterPose.position;
-            }
-        }
+		public DetectedPlane trackedPlane { get; private set; }
 
-        public Quaternion rotation
-        {
-            get
-            {
-                return this.trackedPlane.CenterPose.rotation;
-            }
-        }
+		public Vector3 position => trackedPlane.CenterPose.position;
 
-        public Vector2 size
-        {
-            get
-            {
-                return new Vector2(this.trackedPlane.ExtentX, this.trackedPlane.ExtentZ);
-            }
-        }
+		public Quaternion rotation => trackedPlane.CenterPose.rotation;
 
-        public List<Vector3> boundaryPoints
-        {
-            get
-            {
-                this.m_BoundaryList.Clear();
-                this.trackedPlane.GetBoundaryPolygon(this.m_BoundaryList);
-                return this.m_BoundaryList;
-            }
-        }
+		public Vector2 size => new Vector2(trackedPlane.ExtentX, trackedPlane.ExtentZ);
 
-        public PlaneState planeState
-        {
-            get
-            {
-                if (this.trackedPlane.SubsumedBy != null)
-                {
-                    return PlaneState.Replaced;
-                }
-                if (this.trackedPlane.TrackingState == TrackingState.Tracking)
-                {
-                    return PlaneState.Valid;
-                }
-                return PlaneState.Invalid;
-            }
-        }
+		public List<Vector3> boundaryPoints
+		{
+			get
+			{
+				m_BoundaryList.Clear();
+				trackedPlane.GetBoundaryPolygon(m_BoundaryList);
+				return m_BoundaryList;
+			}
+		}
 
-        private List<Vector3> m_BoundaryList = new List<Vector3>();
-    }
+		public PlaneState planeState
+		{
+			get
+			{
+				if (trackedPlane.SubsumedBy != null)
+				{
+					return PlaneState.Replaced;
+				}
+				if (trackedPlane.TrackingState == TrackingState.Tracking)
+				{
+					return PlaneState.Valid;
+				}
+				return PlaneState.Invalid;
+			}
+		}
+
+		public AndroidPlane(DetectedPlane trackedPlane)
+		{
+			this.trackedPlane = trackedPlane;
+		}
+	}
 }

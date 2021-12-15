@@ -1,20 +1,18 @@
-﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace ARElements{
 
-namespace ARElements
+public interface ITrackedPlane
 {
-    public class ITrackedPlane
-    {
-        Vector3 position { get; }
+	Vector3 position { get; }
 
-        Quaternion rotation { get; }
+	Quaternion rotation { get; }
 
-        Vector2 size { get; }
+	Vector2 size { get; }
 
-        List<Vector3> boundaryPoints { get; }
+	List<Vector3> boundaryPoints { get; }
 
-        PlaneState planeState { get; }
-    }
+	PlaneState planeState { get; }
+}
 }

@@ -1,114 +1,105 @@
-﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace ARElements
 {
-    [ExecuteInEditMode]
-    public class AnnotationController : MonoBehaviour, IPointerClickHandler, IEventSystemHandler
-    {
-        public Transform viewer
-        {
-            get
-            {
-                return (!Camera.main) ? null : Camera.main.transform;
-            }
-        }
 
-        public AnnotationViewSize annotationViewSize { get; protected set; }
+	[ExecuteInEditMode]
+	public class AnnotationController : MonoBehaviour, IPointerClickHandler, IEventSystemHandler
+	{
+		[Tooltip("Annotation information that will be used to populate an annotation card.")]
+		public AnnotationData annotationData;
 
-        public void PopulateAnnotation(AnnotationData annotationData, Transform spawnTransform, Transform annotatedObject)
-        {
-            this.annotationData = annotationData;
-            m_SpawnTransform = spawnTransform;
-            m_AnnotatedObject = annotatedObject;
-            UpdateCardForSize(annotationViewSize);
-        }
+		[Tooltip("Transition that will be used to change the mesh between the different card sizes.")]
+		public BaseMeshAnnotationTransition cardMeshTransition;
 
-        private void Update()
-        {
-            if (viewer == null || m_AnnotatedObject == null || annotationData == null || cardMeshTransition == null || cardCanvasTransition == null || cardPositioner == null)
-            {
-                return;
-            }
-            SetViewMode(CalculateBestViewMode());
-            cardPositioner.UpdateAnnotationPosition(viewer, m_SpawnTransform, m_AnnotatedObject);
-        }
+		[Tooltip("Transition that will be used to change the UI between different card sizes.")]
+		public BaseCanvasAnnotationTransition cardCanvasTransition;
 
-        private void SetViewMode(AnnotationViewSize viewSize)
-        {
-            if (viewSize == annotationViewSize)
-            {
-                return;
-            }
-            UpdateCardForSize(viewSize);
-            annotationViewSize = viewSize;
-        }
+		[Tooltip("The positioner uses the spawn location and annotation data info to determine how to position the card on the model.")]
+		public BaseAnnotationPositioner cardPositioner;
 
-        private void UpdateCardForSize(AnnotationViewSize viewSize)
-        {
-            cardMeshTransition.TransitionToViewSize(annotationData, viewSize);
-            cardCanvasTransition.TransitionToViewSize(annotationData, viewSize);
-        }
+		[Tooltip("Distance from viewer to show the large card layout.")]
+		public float largeViewDistance = 1f;
 
-        private AnnotationViewSize CalculateBestViewMode()
-        {
-            if (!m_AnnotatedObject.gameObject.activeInHierarchy)
-            {
-                return AnnotationViewSize.Hidden;
-            }
-            if (annotationData == null || m_AnnotatedObject == null)
-            {
-                return AnnotationViewSize.Unknown;
-            }
-            float num = Vector3.Distance(viewer.position, transform.position);
-            if (annotationData.supportsLargeCardSize && num <= largeViewDistance)
-            {
-                return AnnotationViewSize.Large;
-            }
-            if (annotationData.supportsMediumCardSize && num <= mediumViewDistance)
-            {
-                return AnnotationViewSize.Medium;
-            }
-            if (annotationData.supportsSmallCardSize && num <= smallViewDistance)
-            {
-                return AnnotationViewSize.Small;
-            }
-            return AnnotationViewSize.Hidden;
-        }
+		[Tooltip("Distance from viewer to show the medium card layout.")]
+		public float mediumViewDistance = 2f;
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (!annotationData || !annotationData.screenCardPrefab)
-            {
-                return;
-            }
-            ElementsSystem.instance.annotationPresenter.ShowAnnotationScreenCard(annotationData, annotationData.screenCardPrefab);
-        }
+		[Tooltip("Distance from viewer to show the small card layout.")]
+		public float smallViewDistance = 10f;
 
-        [Tooltip("Annotation information that will be used to populate an annotation card.")]
-        public AnnotationData annotationData;
+		private Transform m_AnnotatedObject;
 
-        [Tooltip("Transition that will be used to change the mesh between the different card sizes.")]
-        public BaseMeshAnnotationTransition cardMeshTransition;
+		private Transform m_SpawnTransform;
 
-        [Tooltip("Transition that will be used to change the UI between different card sizes.")]
-        public BaseCanvasAnnotationTransition cardCanvasTransition;
+		public Transform viewer => (!Camera.main) ? null : Camera.main.transform;
 
-        [Tooltip("The positioner uses the spawn location and annotation data info to determine how to position the card on the model.")]
-        public BaseAnnotationPositioner cardPositioner;
+		public AnnotationViewSize annotationViewSize { get; protected set; }
 
-        [Tooltip("Distance from viewer to show the large card layout.")]
-        public float largeViewDistance = 1f;
+		public void PopulateAnnotation(AnnotationData annotationData, Transform spawnTransform, Transform annotatedObject)
+		{
+			this.annotationData = annotationData;
+			m_SpawnTransform = spawnTransform;
+			m_AnnotatedObject = annotatedObject;
+			UpdateCardForSize(annotationViewSize);
+		}
 
-        [Tooltip("Distance from viewer to show the medium card layout.")]
-        public float mediumViewDistance = 2f;
+		private void Update()
+		{
+			if (!(viewer == null) && !(m_AnnotatedObject == null) && !(annotationData == null) && !(cardMeshTransition == null) && !(cardCanvasTransition == null) && !(cardPositioner == null))
+			{
+				SetViewMode(CalculateBestViewMode());
+				cardPositioner.UpdateAnnotationPosition(viewer, m_SpawnTransform, m_AnnotatedObject);
+			}
+		}
 
-        [Tooltip("Distance from viewer to show the small card layout.")]
-        public float smallViewDistance = 10f;
+		private void SetViewMode(AnnotationViewSize viewSize)
+		{
+			if (viewSize != annotationViewSize)
+			{
+				UpdateCardForSize(viewSize);
+				annotationViewSize = viewSize;
+			}
+		}
 
-        private Transform m_AnnotatedObject;
+		private void UpdateCardForSize(AnnotationViewSize viewSize)
+		{
+			cardMeshTransition.TransitionToViewSize(annotationData, viewSize);
+			cardCanvasTransition.TransitionToViewSize(annotationData, viewSize);
+		}
 
-        private Transform m_SpawnTransform;
-    }
+		private AnnotationViewSize CalculateBestViewMode()
+		{
+			if (!m_AnnotatedObject.gameObject.activeInHierarchy)
+			{
+				return AnnotationViewSize.Hidden;
+			}
+			if (annotationData == null || m_AnnotatedObject == null)
+			{
+				return AnnotationViewSize.Unknown;
+			}
+			float num = Vector3.Distance(viewer.position, base.transform.position);
+			if (annotationData.supportsLargeCardSize && num <= largeViewDistance)
+			{
+				return AnnotationViewSize.Large;
+			}
+			if (annotationData.supportsMediumCardSize && num <= mediumViewDistance)
+			{
+				return AnnotationViewSize.Medium;
+			}
+			if (annotationData.supportsSmallCardSize && num <= smallViewDistance)
+			{
+				return AnnotationViewSize.Small;
+			}
+			return AnnotationViewSize.Hidden;
+		}
+
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			if ((bool)annotationData && (bool)annotationData.screenCardPrefab)
+			{
+				ElementsSystem.instance.annotationPresenter.ShowAnnotationScreenCard(annotationData, annotationData.screenCardPrefab);
+			}
+		}
+	}
 }

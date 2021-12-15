@@ -1,69 +1,57 @@
-﻿using System;
 using System.Collections.Generic;
 using GoogleARCore;
 using UnityEngine;
 
 namespace ARElements
 {
-    public class AndroidTrackingService : MonoBehaviour, ITrackingService
-    {
-        public SessionStatus trackingState
-        {
-            get
-            {
-                return Session.Status;
-            }
-        }
 
-        public bool enabledOnPlatform
-        {
-            get
-            {
-                return Application.platform == RuntimePlatform.Android;
-            }
-        }
+	public class AndroidTrackingService : MonoBehaviour, ITrackingService
+	{
+		private List<DetectedPlane> m_AddedPlanes = new List<DetectedPlane>();
 
-        public void GetNewPlanes(ref List<ITrackedPlane> planes)
-        {
-            this.m_AddedPlanes.Clear();
-            Session.GetTrackables<DetectedPlane>(this.m_AddedPlanes, TrackableQueryFilter.New);
-            if (planes == null)
-            {
-                planes = new List<ITrackedPlane>();
-            }
-            foreach (DetectedPlane detectedPlane in this.m_AddedPlanes)
-            {
-                AndroidPlane androidPlane = new AndroidPlane(detectedPlane);
-                this.m_AndroidPlanes[detectedPlane] = androidPlane;
-                planes.Add(androidPlane);
-            }
-        }
+		private List<DetectedPlane> m_UpdatedPlanes = new List<DetectedPlane>();
 
-        public void GetUpdatedPlanes(ref List<ITrackedPlane> planes)
-        {
-            this.m_UpdatedPlanes.Clear();
-            Session.GetTrackables<DetectedPlane>(this.m_UpdatedPlanes, TrackableQueryFilter.Updated);
-            if (planes == null)
-            {
-                planes = new List<ITrackedPlane>();
-            }
-            foreach (DetectedPlane key in this.m_UpdatedPlanes)
-            {
-                if (!this.m_AndroidPlanes.ContainsKey(key))
-                {
-                    Debug.LogError("Can't update untracked android plane");
-                }
-                else
-                {
-                    planes.Add(this.m_AndroidPlanes[key]);
-                }
-            }
-        }
+		private Dictionary<DetectedPlane, AndroidPlane> m_AndroidPlanes = new Dictionary<DetectedPlane, AndroidPlane>();
 
-        private List<DetectedPlane> m_AddedPlanes = new List<DetectedPlane>();
+		public SessionStatus trackingState => Session.Status;
 
-        private List<DetectedPlane> m_UpdatedPlanes = new List<DetectedPlane>();
+		public bool enabledOnPlatform => Application.platform == RuntimePlatform.Android;
 
-        private Dictionary<DetectedPlane, AndroidPlane> m_AndroidPlanes = new Dictionary<DetectedPlane, AndroidPlane>();
-    }
+		public void GetNewPlanes(ref List<ITrackedPlane> planes)
+		{
+			m_AddedPlanes.Clear();
+			Session.GetTrackables(m_AddedPlanes, TrackableQueryFilter.New);
+			if (planes == null)
+			{
+				planes = new List<ITrackedPlane>();
+			}
+			foreach (DetectedPlane addedPlane in m_AddedPlanes)
+			{
+				AndroidPlane androidPlane = new AndroidPlane(addedPlane);
+				m_AndroidPlanes[addedPlane] = androidPlane;
+				planes.Add(androidPlane);
+			}
+		}
+
+		public void GetUpdatedPlanes(ref List<ITrackedPlane> planes)
+		{
+			m_UpdatedPlanes.Clear();
+			Session.GetTrackables(m_UpdatedPlanes, TrackableQueryFilter.Updated);
+			if (planes == null)
+			{
+				planes = new List<ITrackedPlane>();
+			}
+			foreach (DetectedPlane updatedPlane in m_UpdatedPlanes)
+			{
+				if (!m_AndroidPlanes.ContainsKey(updatedPlane))
+				{
+					Debug.LogError("Can't update untracked android plane");
+				}
+				else
+				{
+					planes.Add(m_AndroidPlanes[updatedPlane]);
+				}
+			}
+		}
+	}
 }

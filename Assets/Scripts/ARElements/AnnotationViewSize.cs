@@ -1,13 +1,12 @@
-﻿using System;
-
 namespace ARElements
 {
-    public enum AnnotationViewSize
-    {
-        Unknown,
-        Hidden,
-        Small,
-        Medium,
-        Large
-    }
+
+	public enum AnnotationViewSize
+	{
+		Unknown,
+		Hidden,
+		Small,
+		Medium,
+		Large
+	}
 }
