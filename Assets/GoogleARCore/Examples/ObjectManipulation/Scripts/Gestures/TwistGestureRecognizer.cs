@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="TwistGestureRecognizer.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="TwistGestureRecognizer.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,15 +28,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
     /// </summary>
     public class TwistGestureRecognizer : GestureRecognizer<TwistGesture>
     {
-        private const float k_SlopRotation = 10.0f;
-
-        internal float m_SlopRotation
-        {
-            get
-            {
-                return k_SlopRotation;
-            }
-        } 
+        internal const float _slopRotation = 10.0f;
 
         /// <summary>
         /// Creates a Twist gesture with the given touches.

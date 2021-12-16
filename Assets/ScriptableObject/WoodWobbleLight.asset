@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf87d8fe91abd4488cb6ade487f0afa, type: 3}
+  m_Name: WoodWobbleLight
+  m_EditorClassIdentifier:
+  volume: 2
+  sourceType: 0
+  subEvents: []
+  clips:
+  - {fileID: 8300000, guid: 6389ee1043cb3cd4c88d3272fd380465, type: 3}
+  - {fileID: 8300000, guid: 76d23ce4a08bfa54ca94e0048cdebaac, type: 3}
+  - {fileID: 8300000, guid: cbe1d7221192d18429743d5c4e4a2b6d, type: 3}

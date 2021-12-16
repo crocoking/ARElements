@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf87d8fe91abd4488cb6ade487f0afa, type: 3}
+  m_Name: Step
+  m_EditorClassIdentifier:
+  volume: 1
+  sourceType: 0
+  subEvents: []
+  clips:
+  - {fileID: 8300000, guid: 631067997bae7fa4b989d6bf702bcf7e, type: 3}
+  - {fileID: 8300000, guid: 8a6bf18c1f941de43ba86d92b36bef8a, type: 3}
+  - {fileID: 8300000, guid: c6f6ffab42d6657409a00ae67c00c343, type: 3}
+  - {fileID: 8300000, guid: 53cd76b902274da40a4ab7714a4ed2aa, type: 3}

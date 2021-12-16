@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1544527758, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: Dotty2
+  m_EditorClassIdentifier:
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename:
+  m_AnimClip: {fileID: 0}
+  m_Parent: {fileID: 11400000, guid: 407fd5a12e534d84bad03fb5c88c685a, type: 2}
+  m_Children:
+  - {fileID: 11400000, guid: eaf75d9dcdbb0e549a0fa771d97e4537, type: 2}
+  - {fileID: 11400000, guid: c14bd43e54eae7b42bdc5839115a92ae, type: 2}
+  - {fileID: 11400000, guid: 47957e01a0e93e14b9e62c3e4bc4b940, type: 2}
+  - {fileID: 11400000, guid: 45c7483c75c15604fa0dc81ac03558a0, type: 2}
+  - {fileID: 11400000, guid: 10b51c56ec3ce634184622df62227117, type: 2}
+  - {fileID: 11400000, guid: 4d86a1add9ee808429eba4e505967b79, type: 2}
+  - {fileID: 11400000, guid: e3afb971e3a8ccd4396db4b302c423b4, type: 2}
+  - {fileID: 11400000, guid: 2cdbe158cde315540abc943d65cf91f7, type: 2}
+  m_Clips: []
+  m_Version: 1

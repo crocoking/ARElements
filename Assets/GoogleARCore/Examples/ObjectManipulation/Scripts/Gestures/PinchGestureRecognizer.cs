@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="PinchGestureRecognizer.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="PinchGestureRecognizer.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,24 +28,8 @@ namespace GoogleARCore.Examples.ObjectManipulation
     /// </summary>
     public class PinchGestureRecognizer : GestureRecognizer<PinchGesture>
     {
-        private const float k_SlopInches = 0.05f;
-        private const float k_SlopMotionDirectionDegrees = 30.0f;
-
-        internal float m_SlopInches
-        {
-            get
-            {
-                return k_SlopInches;
-            }
-        }
-
-        internal float m_SlopMotionDirectionDegrees
-        {
-            get
-            {
-                return k_SlopMotionDirectionDegrees;
-            }
-        }
+        internal const float _slopInches = 0.05f;
+        internal const float _slopMotionDirectionDegrees = 30.0f;
 
         /// <summary>
         /// Creates a Pinch gesture with the given touches.

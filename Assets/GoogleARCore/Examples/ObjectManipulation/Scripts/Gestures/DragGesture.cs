@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="DragGesture.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="DragGesture.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -95,8 +95,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
             {
                 Vector2 pos = touch.position;
                 float diff = (pos - StartPosition).magnitude;
-                if (GestureTouchesUtility.PixelsToInches(diff) >=
-                    (m_Recognizer as DragGestureRecognizer).m_SlopInches)
+                if (GestureTouchesUtility.PixelsToInches(diff) >= DragGestureRecognizer._slopInches)
                 {
                     return true;
                 }

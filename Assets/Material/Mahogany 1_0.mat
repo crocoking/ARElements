@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mahogany 1_0
+  m_Shader: {fileID: 4800000, guid: 5483f5166f097584483dc7a0ef2c6b61, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _OcclusionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.189
+    - _GlossyReflections: 1
+    - _GrainJitterDepthX: 0
+    - _GrainJitterDepthY: 0
+    - _GrainJitterRateX: 0
+    - _GrainJitterRateY: 0
+    - _GrainStringThreshold: 0.6
+    - _GrainWobbleDepthX: 0
+    - _GrainWobbleDepthY: 0
+    - _GrainWobbleRateX: 0
+    - _GrainWobbleRateY: 0
+    - _Metallic: 0.215
+    - _Mode: 0
+    - _OcclusionIntentsity: 0.1
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _RingCompression: 4.89
+    - _RingDepth: 0.316
+    - _RingJitterDepthX: 0
+    - _RingJitterDepthY: 0
+    - _RingJitterRateX: 0
+    - _RingJitterRateY: 0
+    - _RingWidth: 0.071
+    - _RingWobbleDepthX: 0
+    - _RingWobbleDepthY: 0
+    - _RingWobbleRateX: 0
+    - _RingWobbleRateY: 0
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Base: {r: 0.14, g: 0.18, b: -0.07, a: 0}
+    - _Center: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorA0: {r: 0.6196079, g: 0.2709804, b: 0.1215686, a: 1}
+    - _ColorA1: {r: 0.4352942, g: 0.172549, b: 0.03921569, a: 1}
+    - _ColorB0: {r: 0.4705882, g: 0.1570646, b: 0.01730102, a: 1}
+    - _ColorB1: {r: 0.3308824, g: 0.1238221, b: 0.02676255, a: 1}
+    - _ColorBlem: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorS: {r: 0.5921569, g: 0.4862745, b: 0.3921569, a: 1}
+    - _Direction: {r: 0.56, g: 1, b: -1.13, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GrainJitterDepth: {r: 0, g: 0, b: 0, a: 0}
+    - _GrainJitterFrequency: {r: 0, g: 0, b: 0, a: 0}
+    - _GrainStringFrequency: {r: 1, g: 1, b: 1, a: 1}
+    - _GrainStringOffset: {r: 1, g: 1, b: 1, a: 1}
+    - _GrainWobbleDepth: {r: 0.04, g: 0.01, b: 0, a: 0}
+    - _GrainWobbleFrequency: {r: 7, g: 22, b: 0, a: 0}
+    - _RingJitterDepth: {r: 0, g: 0, b: 0, a: 0}
+    - _RingJitterFrequency: {r: 0, g: 0, b: 0, a: 0}
+    - _RingWobbleDepth: {r: 0, g: 0, b: 0, a: 0}
+    - _RingWobbleFrequency: {r: 0, g: 0, b: 0, a: 0}
+    - _SeasonalFrequency: {r: 1.89, g: 4.74, b: 1.27, a: 1}

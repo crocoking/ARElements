@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Gesture.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="Gesture.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,13 +34,15 @@ namespace GoogleARCore.Examples.ObjectManipulationInternal
     /// <typeparam name="T">The actual gesture.</typeparam>
     public abstract class Gesture<T> where T : Gesture<T>
     {
+        private bool _hasStarted;
+
         /// <summary>
         /// Constructs a Gesture with a given recognizer.
         /// </summary>
         /// <param name="recognizer">The gesture recognizer.</param>
         internal Gesture(GestureRecognizer<T> recognizer)
         {
-            m_Recognizer = recognizer;
+            _recognizer = recognizer;
         }
 
         /// <summary>
@@ -71,22 +73,20 @@ namespace GoogleARCore.Examples.ObjectManipulationInternal
         /// <summary>
         /// Gets the gesture recognizer.
         /// </summary>
-        protected internal GestureRecognizer<T> m_Recognizer { get; private set; }
-
-        private bool m_HasStarted { get; set; }
+        protected internal GestureRecognizer<T> _recognizer { get; private set; }
 
         /// <summary>
         /// Updates this gesture.
         /// </summary>
         internal void Update()
         {
-            if (!m_HasStarted && CanStart())
+            if (!_hasStarted && CanStart())
             {
                 Start();
                 return;
             }
 
-            if (m_HasStarted)
+            if (_hasStarted)
             {
                 if (UpdateGesture() && onUpdated != null)
                 {
@@ -146,7 +146,7 @@ namespace GoogleARCore.Examples.ObjectManipulationInternal
 
         private void Start()
         {
-            m_HasStarted = true;
+            _hasStarted = true;
             OnStart();
             if (onStart != null)
             {

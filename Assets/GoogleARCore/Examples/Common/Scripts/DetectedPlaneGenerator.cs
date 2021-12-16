@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
-// <copyright file="DetectedPlaneGenerator.cs" company="Google">
+// <copyright file="DetectedPlaneGenerator.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ namespace GoogleARCore.Examples.Common
         /// A list to hold new planes ARCore began tracking in the current frame. This object is
         /// used across the application to avoid per-frame allocations.
         /// </summary>
-        private List<DetectedPlane> m_NewPlanes = new List<DetectedPlane>();
+        private List<DetectedPlane> _newPlanes = new List<DetectedPlane>();
 
         /// <summary>
         /// The Unity Update method.
@@ -53,15 +53,15 @@ namespace GoogleARCore.Examples.Common
 
             // Iterate over planes found in this frame and instantiate corresponding GameObjects to
             // visualize them.
-            Session.GetTrackables<DetectedPlane>(m_NewPlanes, TrackableQueryFilter.New);
-            for (int i = 0; i < m_NewPlanes.Count; i++)
+            Session.GetTrackables<DetectedPlane>(_newPlanes, TrackableQueryFilter.New);
+            for (int i = 0; i < _newPlanes.Count; i++)
             {
                 // Instantiate a plane visualization prefab and set it to track the new plane. The
                 // transform is set to the origin with an identity rotation since the mesh for our
                 // prefab is updated in Unity World coordinates.
                 GameObject planeObject =
                     Instantiate(DetectedPlanePrefab, Vector3.zero, Quaternion.identity, transform);
-                planeObject.GetComponent<DetectedPlaneVisualizer>().Initialize(m_NewPlanes[i]);
+                planeObject.GetComponent<DetectedPlaneVisualizer>().Initialize(_newPlanes[i]);
             }
         }
     }

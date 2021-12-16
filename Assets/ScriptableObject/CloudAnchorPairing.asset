@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 337831424, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: CloudAnchorPairing
+  m_EditorClassIdentifier:
+  m_NextId: 0
+  m_Tracks:
+  - {fileID: 11400000, guid: 0d1183b020725c74aac2324472c4ca21, type: 2}
+  - {fileID: 11400000, guid: 7fae62a4238dd3b43a9e0bc44ae797fe, type: 2}
+  - {fileID: 11400000, guid: 9341873c77f90a14e8e8605e52169bfc, type: 2}
+  - {fileID: 11400000, guid: dc25340b6f658084ea82724ab4093f45, type: 2}
+  - {fileID: 11400000, guid: faa22494f36ce0f43a5469e89f03ff90, type: 2}
+  - {fileID: 11400000, guid: badb821184c2b504ab4f1f637d03f4fd, type: 2}
+  m_FixedDuration: 20.133333333332
+  m_EditorSettings:
+    m_Framerate: 60
+  m_DurationMode: 0
+  m_Version: 0

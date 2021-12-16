@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: FrameWater_mat
+  m_Shader: {fileID: 4800000, guid: 100f63bd4ed89f14699f5fa3599af08f, type: 3}
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Amplitude: 0.8
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 10
+    - _FoamDepth: 0.421
+    - _Frequency: 1.8
+    - _GlossMapScale: 1
+    - _Glossiness: 0.999
+    - _GlossyReflections: 1
+    - _Metallic: 0.103
+    - _Mode: 3
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _Period: 11.4
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 0
+    m_Colors:
+    - _BaseColor: {r: 0.5429823, g: 0.7581899, b: 0.8897059, a: 0.565}
+    - _Color: {r: 0.03481833, g: 0.5037165, b: 0.6764706, a: 0.7568628}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _FoamColor: {r: 0.08330368, g: 0.3458621, b: 0.4528302, a: 0.7490196}
+    - _Wave02Mult: {r: 0.3, g: 0, b: 1.23, a: 0}
+    - _Wave03Mult: {r: 0.31, g: 0, b: 0.56, a: 0}
+    - _WaveDir: {r: 1, g: 0, b: 0.5, a: 0}
+    - _WaveDir01: {r: 1, g: 0, b: 0, a: 0}
+    - _WaveDir02: {r: 0.41, g: 0, b: 0.43, a: 0}
+    - _WaveDir03: {r: 0.76, g: 0, b: -1, a: 0}

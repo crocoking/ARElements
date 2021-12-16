@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf87d8fe91abd4488cb6ade487f0afa, type: 3}
+  m_Name: ChessPlace
+  m_EditorClassIdentifier:
+  volume: 1
+  sourceType: 0
+  subEvents: []
+  clips:
+  - {fileID: 8300000, guid: b83f09e40119c4f4b82f4518fc67447c, type: 3}
+  - {fileID: 8300000, guid: 94d0532aca27b1a4fb658bb11828a958, type: 3}
+  - {fileID: 8300000, guid: 6d262500ba8ebaf4192409e4a6499329, type: 3}
+  - {fileID: 8300000, guid: 58e37c868883e484d89f2ca8a7be6514, type: 3}
+  - {fileID: 8300000, guid: aee066dd5e7b7c44098d4d91aa988537, type: 3}
+  - {fileID: 8300000, guid: 801f0cd9d64239846bd6f4a52cbd5871, type: 3}
+  - {fileID: 8300000, guid: 765e86b4bad34144cbdd0008e530c893, type: 3}

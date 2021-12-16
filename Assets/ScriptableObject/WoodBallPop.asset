@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf87d8fe91abd4488cb6ade487f0afa, type: 3}
+  m_Name: WoodBallPop
+  m_EditorClassIdentifier:
+  volume: 1.5
+  sourceType: 0
+  subEvents: []
+  clips:
+  - {fileID: 8300000, guid: 41607010555ab6241b922d2ccb8e5620, type: 3}
+  - {fileID: 8300000, guid: fffb816218bb99e4590879705bd794b2, type: 3}
+  - {fileID: 8300000, guid: 5e962e391d852fb488910589af7dd839, type: 3}
+  - {fileID: 8300000, guid: daad46b7c1c37e84f9b9bafe654e38d1, type: 3}

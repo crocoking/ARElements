@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 337831424, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: Intro
+  m_EditorClassIdentifier:
+  m_NextId: 0
+  m_Tracks:
+  - {fileID: 11400000, guid: 27dcc22f3d4c57942b83d15ee696a407, type: 2}
+  - {fileID: 11400000, guid: e75dcd9c127ad2346a6125e455b9456d, type: 2}
+  - {fileID: 11400000, guid: f9a77a10930e7f24e942edc503f9d110, type: 2}
+  - {fileID: 11400000, guid: 7407816067c77a14ea5a0d3b7f78a3ae, type: 2}
+  - {fileID: 11400000, guid: 86c924a3e4af32844bdc76737db32ec6, type: 2}
+  m_FixedDuration: 0
+  m_EditorSettings:
+    m_Framerate: 60
+  m_DurationMode: 0
+  m_Version: 0

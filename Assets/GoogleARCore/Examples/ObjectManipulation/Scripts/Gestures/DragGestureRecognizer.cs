@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="DragGestureRecognizer.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="DragGestureRecognizer.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,15 +28,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
     /// </summary>
     public class DragGestureRecognizer : GestureRecognizer<DragGesture>
     {
-        private const float k_SlopInches = 0.1f;
-
-        internal float m_SlopInches
-        {
-            get
-            {
-                return k_SlopInches;
-            }
-        }
+        internal const float _slopInches = 0.1f;
 
         /// <summary>
         /// Creates a Drag gesture with the given touch.

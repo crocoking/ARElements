@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85965f8148e66e45953375bb7184e52, type: 3}
+  m_Name: TreeAnnotationData
+  m_EditorClassIdentifier:
+  icon: {fileID: 21300000, guid: 0c2b26bb73178af488c22b01a6d7b177, type: 3}
+  title: Tree
+  summary: Trees are green things with leaves.
+  detail: In botany, a tree is a perennial plant with an elongated stem, or trunk, supporting branches and leaves in most species. In some usages, the definition of a tree may be narrower, including only woody plants with secondary growth, plants that are usable as lumber or plants above a specified height. Trees are not a taxonomic group but include a variety of plant species that have independently evolved a woody trunk and branches as a way to tower above other plants to compete for sunlight. Trees tend to be long-lived, some reaching several thousand years old. In looser definitions, the taller palms, tree ferns, bananas and bamboos are also trees. Trees have been in existence for 370 million years. It is estimated that there are just over 3 trillion mature trees in the world.[1]
+  cardColor: {r: 1, g: 0.3411764, b: 0.1470588, a: 1}
+  cardTexture: {fileID: 0}
+  screenCardPrefab: {fileID: 114668357174736997, guid: 415ae0c09a90faa4d82f0c7c7d7031ed, type: 2}
+  supportsSmallCardSize: 1
+  supportsMediumCardSize: 1
+  supportsLargeCardSize: 1
+  supportsScreenSpaceViewing: 1

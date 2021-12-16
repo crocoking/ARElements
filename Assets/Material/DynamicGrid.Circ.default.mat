@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: DynamicGrid.Circ.default
+  m_Shader: {fileID: 4800000, guid: 31d18e397b0998e4f8c36879e06d2d9e, type: 3}
+  m_ShaderKeywords: _GRIDSTAGGERMODE_STANDARD
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _PerimeterDist:
+        m_Texture: {fileID: 2800000, guid: ea1bee7f7f9211e418c1628317b2b750, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Acceleration: 0
+    - _AlphaFadeEdge: 1
+    - _BumpScale: 1
+    - _CellCornerOccludeEdge: -0.25
+    - _CellCornerOccludeFocalPoint: -0.25
+    - _CellCornerOccludeMixEdge: 0
+    - _CellCornerOccludeMixFocalPoint: 0
+    - _CellEdgeOccludeEdge: -0.25
+    - _CellEdgeOccludeFocalPoint: -0.25
+    - _CellEdgeOccludeMixEdge: 0
+    - _CellEdgeOccludeMixFocalPoint: 0
+    - _CellFalloffPosition: 1
+    - _CellFill: 1
+    - _CellFillEdge: 2
+    - _CellFillFocalPoint: 2
+    - _CellFillMixEdge: 1
+    - _CellFillMixFocalPoint: 1
+    - _CellNumCorners: 0
+    - _CellRotation: 0
+    - _CellScale: 0.75
+    - _CellShapeMode: 0
+    - _ColorMixEdge: 1
+    - _ColorMixFocalPoint: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _FadeWidth: 0.29
+    - _FeaturePointFadePower: 5.74
+    - _FeaturePointRadius: 6.24
+    - _FocalPointFadePosition: 1
+    - _FocalPointFadePower: 0.2
+    - _FocalPointFadeWidth: 0.3
+    - _FocalPointRadius: 0
+    - _FocalPointRange: 0.35
+    - _GeometryEdgeFadeWidth: 0.17
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _GridScale: 0.039
+    - _GridSpacing: 0.152
+    - _GridStaggerMode: 0
+    - _Metallic: 0
+    - _Mode: 0
+    - _OccludeCornerBase: 0
+    - _OccludeCornerRatio: 0
+    - _OccludeEdgeBase: 0
+    - _OccludeEdgeRatio: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _Radius: 0.5
+    - _RadiusFalloffPower: 2.84
+    - _ScaleEdge: 0
+    - _ScaleEdgeMix: 1
+    - _ScaleFadeEdge: 0
+    - _ScaleFocalPoint: 1
+    - _ScaleFocalPointMix: 1
+    - _ScaleMixEdge: 1
+    - _ScaleMixFocalPoint: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _Speed: 0
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _Visibility: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseGridColor: {r: 1, g: 0, b: 0, a: 0.284}
+    - _Bounds: {r: -0.5, g: -2, b: 1, a: 1}
+    - _CellRandomizeFalloff: {r: 23.1, g: 45.2, b: 0, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.09}
+    - _EdgeGridColor: {r: 1, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FeaturePointPosition: {r: 0, g: 0, b: 0, a: 1}
+    - _FocalPoint: {r: 0, g: 0, b: -0.42, a: 1}
+    - _FocalPointColor: {r: 1, g: 0, b: 0, a: 1}
+    - _FocalPointFadeRandomize: {r: 23.1, g: 45.2, b: 0, a: 1}
+    - _FocalPointPosition: {r: 0, g: 0, b: 1.52, a: 0}
+    - _FocalPointPositionPosition: {r: 0.34, g: 0.78, b: 0.85, a: 1}
+    - _GridColorBase: {r: 1, g: 1, b: 1, a: 0}
+    - _GridColorEdge: {r: 1, g: 1, b: 1, a: 0}
+    - _GridColorFocalPoint: {r: 1, g: 1, b: 1, a: 0.972549}
+    - _GridScale: {r: 1.05, g: 1.05, b: 0, a: 1}
+    - _GridSpacing: {r: 0.21, g: 0.21, b: 0, a: 1}

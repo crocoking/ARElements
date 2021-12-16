@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
-// <copyright file="ExperimentManager.cs" company="Google">
+// <copyright file="ExperimentManager.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,14 +27,14 @@ namespace GoogleARCoreInternal
 
     internal class ExperimentManager
     {
-        private static ExperimentManager s_Instance;
-        private List<ExperimentBase> m_Experiments;
+        private static ExperimentManager _instance;
+        private List<ExperimentBase> _experiments;
 
         public ExperimentManager()
         {
             // Experiments all derive from ExperimentBase to get hooks to the internal
             // state. Find and hook them up.
-            m_Experiments = new List<ExperimentBase>();
+            _experiments = new List<ExperimentBase>();
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             List<Type> allTypes = new List<Type>();
@@ -63,23 +63,20 @@ namespace GoogleARCoreInternal
                     continue;
                 }
 
-                m_Experiments.Add(Activator.CreateInstance(type) as ExperimentBase);
+                _experiments.Add(Activator.CreateInstance(type) as ExperimentBase);
             }
         }
-
-        private delegate void OnBeforeSetConfigurationCallback(
-            IntPtr sessionHandhle, IntPtr configHandle);
 
         public static ExperimentManager Instance
         {
             get
             {
-                if (s_Instance == null)
+                if (_instance == null)
                 {
-                    s_Instance = new ExperimentManager();
+                    _instance = new ExperimentManager();
                 }
 
-                return s_Instance;
+                return _instance;
             }
         }
 
@@ -91,7 +88,7 @@ namespace GoogleARCoreInternal
             {
                 bool result = false;
 
-                foreach (var experiment in m_Experiments)
+                foreach (var experiment in _experiments)
                 {
                     result = result || experiment.IsConfigurationDirty();
                 }
@@ -102,27 +99,21 @@ namespace GoogleARCoreInternal
 
         public void Initialize()
         {
-            LifecycleManager.Instance.EarlyUpdate += s_Instance._OnEarlyUpdate;
+            LifecycleManager.Instance.EarlyUpdate += _instance.OnEarlyUpdate;
             LifecycleManager.Instance.UpdateSessionFeatures +=
-                s_Instance.OnUpdateSessionFeatures;
-        }
-
-        public void OnBeforeSetConfiguration(IntPtr sessionHandle, IntPtr configHandle)
-        {
-            foreach (var experiment in m_Experiments)
-            {
-                experiment.OnBeforeSetConfiguration(sessionHandle, configHandle);
-            }
+                _instance.OnUpdateSessionFeatures;
+            LifecycleManager.Instance.OnSetConfiguration +=
+                        _instance.SetConfiguration;
         }
 
         public bool IsManagingTrackableType(int trackableType)
         {
-            return _GetTrackableTypeManager(trackableType) != null;
+            return GetTrackableTypeManager(trackableType) != null;
         }
 
         public TrackableHitFlags GetTrackableHitFlags(int trackableType)
         {
-            ExperimentBase trackableManager = _GetTrackableTypeManager(trackableType);
+            ExperimentBase trackableManager = GetTrackableTypeManager(trackableType);
             if (trackableManager != null)
             {
                 return trackableManager.GetTrackableHitFlags(trackableType);
@@ -133,7 +124,7 @@ namespace GoogleARCoreInternal
 
         public Trackable TrackableFactory(int trackableType, IntPtr trackableHandle)
         {
-            ExperimentBase trackableManager = _GetTrackableTypeManager(trackableType);
+            ExperimentBase trackableManager = GetTrackableTypeManager(trackableType);
             if (trackableManager != null)
             {
                 return trackableManager.TrackableFactory(trackableType, trackableHandle);
@@ -144,23 +135,31 @@ namespace GoogleARCoreInternal
 
         public void OnUpdateSessionFeatures()
         {
-            foreach (var experiment in m_Experiments)
+            foreach (var experiment in _experiments)
             {
                 experiment.OnUpdateSessionFeatures();
             }
         }
 
-        private void _OnEarlyUpdate()
+        private void OnEarlyUpdate()
         {
-            foreach (var experiment in m_Experiments)
+            foreach (var experiment in _experiments)
             {
                 experiment.OnEarlyUpdate();
             }
         }
 
-        private ExperimentBase _GetTrackableTypeManager(int trackableType)
+        private void SetConfiguration(IntPtr sessionHandle, IntPtr configHandle)
         {
-            foreach (var experiment in m_Experiments)
+            foreach (var experiment in _experiments)
+            {
+                experiment.OnSetConfiguration(sessionHandle, configHandle);
+            }
+        }
+
+        private ExperimentBase GetTrackableTypeManager(int trackableType)
+        {
+            foreach (var experiment in _experiments)
             {
                 if (experiment.IsManagingTrackableType(trackableType))
                 {

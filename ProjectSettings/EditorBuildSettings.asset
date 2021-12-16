@@ -4,5 +4,77 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/InitScreen/InitScreen.unity
+    guid: 255da222f9cf3dc49925e21cec86fad5
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/Menu/Menu.unity
+    guid: 7b40e6fae01244e43b18f9151b158b30
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP01/BP01.unity
+    guid: c79ce6a5a33f8c7439bc7ef221ecb9d0
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP02/BP02.unity
+    guid: b2f123fe135b4334b97d48d97a43373c
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP03/BP03.unity
+    guid: 4abe518e5a78ab540a9dc177011db67f
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP05/BP05.unity
+    guid: e1441647a717d17429a7ebcd0636bba6
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP06/BP06.unity
+    guid: a1d8a52021084c8499ed734a47d1603d
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP08/BP08.unity
+    guid: 21897c7668dc115428e387fc9016f977
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP09/BP09.unity
+    guid: b40fbac3ccc13d34aa57935e681d343e
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP11/BP11.unity
+    guid: 7ecc2514fea0a8d4cb67fb599880ca47
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP12/BP12.unity
+    guid: 9866c1ab9f90a9745a68aa8bf4759222
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP13/BP13.unity
+    guid: 1da787575827e7548b2713c5b5682546
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP15/BP15.unity
+    guid: 8dab4c024a7e57845ac0ad28c2ea6df9
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP18/BP18.unity
+    guid: 12512e315fad6354196ff2f8246ceaf1
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP22/BP22_A.unity
+    guid: cfcc4152653b0c94bb6477551e4b4d67
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP22/BP22_B.unity
+    guid: eae8363e4f069fe49aba8c9291372d83
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP25/BP25.unity
+    guid: 17e2f2be38ff16447987d586a606482e
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP27/BP27.unity
+    guid: 19736a2b4702fd949be4c317387c8027
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP29/BP29.unity
+    guid: a1ce70d60fe57f94982306f86d0a4ee4
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP30/BP30.unity
+    guid: 8e131bb95726d314eb07f0f31c1aa603
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/BP33/BP33.unity
+    guid: 3ff8bb94e55fe324891b3c37faefc1d6
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/Gallery Placement/2DGallery.unity
+    guid: 6ac11e570420bcc4d9b2bb6cd19ba7b0
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/PlaneViz/PlaneViz.unity
+    guid: 5e8a3646efa7904428e42c62d138be54
+  - enabled: 1
+    path: Assets/Scene/ARCoreBestPractices/Scenes/CloudAnchorPairing/CloudAnchorPairing.unity
+    guid: 48e50cffaf6f99a49979180c11e9b5aa
   m_configObjects: {}

@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AugmentedImageTrackingMethod.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="AugmentedImageTrackingMethod.cs" company="Google LLC">
 //
-// Copyright 2019 Google Inc. All Rights Reserved.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,23 +27,24 @@ namespace GoogleARCore
     {
         /// <summary>
         /// The Augmented Image is not currently being tracked.
-        /// This state indicates that the image's <see cref="TrackingState"/> is
-        /// <see cref="TrackingState.Paused"/> or <see cref="TrackingState.Stopped"/>.
+        /// This state indicates that the image's <c><see cref="TrackingState"/></c> is
+        /// <c><see cref="TrackingState"/></c>.<c>Paused</c> or
+        /// <c><see cref="TrackingState"/></c>.<c>Stopped</c>.
         /// </summary>
         NotTracking = 0,
 
         /// <summary>
         /// The Augmented Image is currently being tracked using the camera image.
-        /// This state can only occur when the image's <see cref="TrackingState"/> is
-        /// <see cref="TrackingState.Tracking"/>.
+        /// This state can only occur when the image's <c><see cref="TrackingState"/></c> is
+        /// <c><see cref="TrackingState"/></c>.<c>Tracking</c>.
         /// </summary>
         FullTracking = 1,
 
         /// <summary>
         /// The Augmented Image is currently being tracked based on its last known pose,
         /// because it can no longer be tracked using the camera image.
-        /// This state can only occur when the image's <see cref="TrackingState"/> is
-        /// <see cref="TrackingState.Tracking"/>.
+        /// This state can only occur when the image's <c><see cref="TrackingState"/></c> is
+        /// <c><see cref="TrackingState"/></c>.<c>Tracking</c>.
         /// </summary>
         LastKnownPose = 2,
     }

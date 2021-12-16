@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="TapGestureRecognizer.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="TapGestureRecognizer.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,30 +28,8 @@ namespace GoogleARCore.Examples.ObjectManipulation
     /// </summary>
     public class TapGestureRecognizer : GestureRecognizer<TapGesture>
     {
-        private const float k_SlopInches = 0.1f;
-        private const float k_TimeSeconds = 0.3f;
-
-        /// <summary>
-        /// Gets the edge slop distance to filter tap gestures.
-        /// </summary>
-        internal float m_SlopInches
-        {
-            get
-            {
-                return k_SlopInches;
-            }
-        }
-
-        /// <summary>
-        /// Gets the max time to be considered a Tap gesture.
-        /// </summary>
-        internal float m_TimeSeconds
-        {
-            get
-            {
-                return k_TimeSeconds;
-            }
-        }
+        internal const float _slopInches = 0.1f;
+        internal const float _timeSeconds = 0.3f;
 
         /// <summary>
         /// Creates a Tap gesture with the given touch.

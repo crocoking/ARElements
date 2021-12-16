@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1e31e1a4e7a6d4aa419aa63dbaa7c7, type: 3}
+  m_Name: SceneInfos
+  m_EditorClassIdentifier:
+  sceneInfos:
+  - name: BP08
+    title: Experience size
+    icon: {fileID: 21300000, guid: 11866a9fa1408b1448b0cf0efb9f3be9, type: 3}
+    islandGroup: 0
+    unlisted: 0
+  - name: BP12
+    title: Multiple surfaces
+    icon: {fileID: 21300000, guid: 6a8b77bc4b0a60940940cfe7f7508df9, type: 3}
+    islandGroup: 0
+    unlisted: 0
+  - name: BP09
+    title: Go big
+    icon: {fileID: 21300000, guid: c61d565832ba4b345a7f98c6a957c639, type: 3}
+    islandGroup: 0
+    unlisted: 0
+  - name: BP15
+    title: Lighting
+    icon: {fileID: 21300000, guid: c7393e69b811120479e7ef5664ea1dc9, type: 3}
+    islandGroup: 0
+    unlisted: 0
+  - name: BP33
+    title: Light triggers
+    icon: {fileID: 21300000, guid: 4126a2966932e0d4ebba9c54ece5c1b0, type: 3}
+    islandGroup: 0
+    unlisted: 0
+  - name: CloudAnchorPairing
+    title: Multiplayer Pairing
+    icon: {fileID: 21300000, guid: c61d565832ba4b345a7f98c6a957c639, type: 3}
+    islandGroup: 0
+    unlisted: 0
+  - name: BP13
+    title: Encourage exploration
+    icon: {fileID: 21300000, guid: a9192b5389f341a4191d343323756185, type: 3}
+    islandGroup: 1
+    unlisted: 0
+  - name: BP03
+    title: Ease of access
+    icon: {fileID: 21300000, guid: 2474417d3abadcd48a759294c522caa8, type: 3}
+    islandGroup: 1
+    unlisted: 0
+  - name: BP25
+    title: User path
+    icon: {fileID: 21300000, guid: be3fd1f30a2a002408897c369b798fbe, type: 3}
+    islandGroup: 1
+    unlisted: 0
+  - name: BP06
+    title: Inside objects
+    icon: {fileID: 21300000, guid: 6a6b1873ec2807245b38a0ee53564386, type: 3}
+    islandGroup: 1
+    unlisted: 0
+  - name: BP02
+    title: Touch interaction
+    icon: {fileID: 21300000, guid: db260092d33dbce4088b08fb043ddcfd, type: 3}
+    islandGroup: 2
+    unlisted: 0
+  - name: 2DGallery
+    title: Screen gallery
+    icon: {fileID: 21300000, guid: 0e158e7aa39495342bfc075eef8c5784, type: 3}
+    islandGroup: 2
+    unlisted: 0
+  - name: BP22_A
+    title: Reticle interaction
+    icon: {fileID: 21300000, guid: b8c813a83e7bb3d47a027923be916c1e, type: 3}
+    islandGroup: 2
+    unlisted: 0
+  - name: BP22_B
+    title: Precise selection
+    icon: {fileID: 21300000, guid: f190a46daf85e9d47b30d25e993dbe59, type: 3}
+    islandGroup: 2
+    unlisted: 0
+  - name: BP27
+    title: Virtual weight
+    icon: {fileID: 21300000, guid: 1add01620be7081489d65a485ba44055, type: 3}
+    islandGroup: 2
+    unlisted: 0
+  - name: BP18
+    title: Offscreen marker
+    icon: {fileID: 21300000, guid: e494d9d513d33e04da604cca4b252466, type: 3}
+    islandGroup: 3
+    unlisted: 0
+  - name: BP29
+    title: Pop-ups
+    icon: {fileID: 21300000, guid: 6a1d7cf88f509fd43805f93ba3424c59, type: 3}
+    islandGroup: 3
+    unlisted: 0
+  - name: BP11
+    title: Target size
+    icon: {fileID: 21300000, guid: 424ec553ba438c6428d6b663b9e57b39, type: 3}
+    islandGroup: 3
+    unlisted: 0
+  - name: BP05
+    title: Screen UI
+    icon: {fileID: 21300000, guid: 86eea20056e02304bb1655ca87440b5f, type: 3}
+    islandGroup: 3
+    unlisted: 0
+  - name: PlaneViz
+    title: Show what you know
+    icon: {fileID: 0}
+    islandGroup: 3
+    unlisted: 1

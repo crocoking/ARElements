@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
-// <copyright file="LifecycleManager.cs" company="Google">
+// <copyright file="LifecycleManager.cs" company="Google LLC">
 //
-// Copyright 2017 Google Inc. All Rights Reserved.
+// Copyright 2017 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,25 +26,43 @@ namespace GoogleARCoreInternal
 
     internal class LifecycleManager
     {
-        private static ILifecycleManager s_Instance;
+        private static ILifecycleManager _instance;
 
         public static ILifecycleManager Instance
         {
             get
             {
-                if (s_Instance == null)
+                if (_instance == null)
                 {
-                    if (Application.platform == RuntimePlatform.IPhonePlayer)
-                    {
-                        s_Instance = ARCoreIOSLifecycleManager.Instance;
-                    }
-                    else
-                    {
-                        s_Instance = ARCoreAndroidLifecycleManager.Instance;
-                    }
+#if UNITY_ANDROID || UNITY_EDITOR
+                    _instance = ARCoreAndroidLifecycleManager.Instance;
+#elif UNITY_IOS
+                    _instance = ARCoreIOSLifecycleManager.Instance;
+#endif
                 }
 
-                return s_Instance;
+                return _instance;
+            }
+        }
+
+        /// <summary>
+        /// Force reset the singleton instance to null. Should only be used in Unit Test.
+        /// </summary>
+        internal static void ResetInstance()
+        {
+            if (_instance != null)
+            {
+                if (_instance is ARCoreAndroidLifecycleManager)
+                {
+                    ARCoreAndroidLifecycleManager.ResetInstance();
+                }
+#if UNITY_IOS
+                else if(_instance is ARCoreIOSLifecycleManager)
+                {
+                    ARCoreIOSLifecycleManager.ResetInstance();
+                }
+#endif
+                _instance = null;
             }
         }
     }

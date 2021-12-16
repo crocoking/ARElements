@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 337831424, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: IslandsIn
+  m_EditorClassIdentifier:
+  m_NextId: 0
+  m_Tracks:
+  - {fileID: 11400000, guid: fabbd56b099c5da49a06e3979fe458e9, type: 2}
+  - {fileID: 11400000, guid: c1d0129a69a35f044bf48408918f7a11, type: 2}
+  - {fileID: 11400000, guid: 57b225e04ce61bc439d0586c6944bb97, type: 2}
+  - {fileID: 11400000, guid: 370f7695ba8a7ea4b89710aff501a7c3, type: 2}
+  - {fileID: 11400000, guid: 073a9bb151286dc479ec286950d949c2, type: 2}
+  - {fileID: 11400000, guid: f2f8930234a361744bdd29e5a82037e3, type: 2}
+  - {fileID: 11400000, guid: 26cb90bb068c0dc4db20819b8c076255, type: 2}
+  - {fileID: 11400000, guid: d3dd029e31c236b46be2587ad57ba6ba, type: 2}
+  - {fileID: 11400000, guid: e16b57dae6c20db4cbd3de5ccf69fe2f, type: 2}
+  m_FixedDuration: 0
+  m_EditorSettings:
+    m_Framerate: 60
+  m_DurationMode: 0
+  m_Version: 0

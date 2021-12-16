@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1999637385552168}
+  m_IsPrefabAsset: 1
+--- !u!1 &1999637385552168
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4923423556331308}
+  - component: {fileID: 114034902717637153}
+  - component: {fileID: 114859927657909664}
+  m_Layer: 0
+  m_Name: PlacematSetup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4923423556331308
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1999637385552168}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114034902717637153
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1999637385552168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d24ac197e2e91d4c8fe37e45516fa8f, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  sceneAreaTemplate: {fileID: 114168854577938397, guid: 36684cc76ad12974cbf321784ae09dc1, type: 2}
+  anchorPlacematTemplate: {fileID: 114001308318761046, guid: 473d41335a1cd97468b0f89a34da2f06, type: 2}
+  autoTableTemplate: {fileID: 114515808030631346, guid: 68a3236f63633f545bf07a35ea6bd768, type: 2}
+  onCommitted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  dynamicGridMask: {fileID: 2800000, guid: b8df46f18afbf8242bf722a506b5ff87, type: 3}
+  dynamicGridRange: 2
+  desiredDistance: 1.5
+--- !u!114 &114859927657909664
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1999637385552168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e494e4f236bba274ca698a3dcdaf6bd7, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  placematSetup: {fileID: 114034902717637153}

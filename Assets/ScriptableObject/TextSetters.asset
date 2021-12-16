@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1544527758, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: TextSetters
+  m_EditorClassIdentifier:
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename:
+  m_AnimClip: {fileID: 0}
+  m_Parent: {fileID: 11400000, guid: 407fd5a12e534d84bad03fb5c88c685a, type: 2}
+  m_Children:
+  - {fileID: 11400000, guid: bf62c4fe5b25f1c49a4f40bf45b416d4, type: 2}
+  - {fileID: 11400000, guid: ac3a3f89b1951e640b3f462d4647a8e4, type: 2}
+  - {fileID: 11400000, guid: 846170bec1a4b6e46b818e7914223a3f, type: 2}
+  - {fileID: 11400000, guid: ae078bfd13011d444aad2f75c9b481c2, type: 2}
+  - {fileID: 11400000, guid: 21dfa104ac3f99a4cb3d98c0bd56a16b, type: 2}
+  m_Clips: []
+  m_Version: 1

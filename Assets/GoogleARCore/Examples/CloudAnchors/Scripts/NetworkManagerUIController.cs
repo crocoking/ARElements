@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="NetworkManagerUIController.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="NetworkManagerUIController.cs" company="Google LLC">
 //
-// Copyright 2018 Google Inc. All Rights Reserved.
+// Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,21 +25,17 @@ namespace GoogleARCore.Examples.CloudAnchors
     using UnityEngine.Networking;
     using UnityEngine.Networking.Match;
     using UnityEngine.Networking.Types;
+    using UnityEngine.SceneManagement;
     using UnityEngine.UI;
 
     /// <summary>
     /// Controller managing UI for joining and creating rooms.
     /// </summary>
 #pragma warning disable 618
-    [RequireComponent(typeof(NetworkManager))]
+    [RequireComponent(typeof(CloudAnchorsNetworkManager))]
 #pragma warning restore 618
     public class NetworkManagerUIController : MonoBehaviour
     {
-        /// <summary>
-        /// The Lobby Screen to see Available Rooms or create a new one.
-        /// </summary>
-        public Canvas LobbyScreen;
-
         /// <summary>
         /// The snackbar text.
         /// </summary>
@@ -49,6 +45,11 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// The Label showing the current active room.
         /// </summary>
         public GameObject CurrentRoomLabel;
+
+        /// <summary>
+        /// The return to lobby button in AR Scene.
+        /// </summary>
+        public GameObject ReturnButton;
 
         /// <summary>
         /// The Cloud Anchors Example Controller.
@@ -73,24 +74,24 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// <summary>
         /// The number of matches that will be shown.
         /// </summary>
-        private const int k_MatchPageSize = 5;
+        private const int _matchPageSize = 5;
 
         /// <summary>
         /// The Network Manager.
         /// </summary>
 #pragma warning disable 618
-        private NetworkManager m_Manager;
+        private CloudAnchorsNetworkManager _manager;
 #pragma warning restore 618
 
         /// <summary>
         /// The current room number.
         /// </summary>
-        private string m_CurrentRoomNumber;
+        private string _currentRoomNumber;
 
         /// <summary>
         /// The Join Room buttons.
         /// </summary>
-        private List<GameObject> m_JoinRoomButtonsPool = new List<GameObject>();
+        private List<GameObject> _joinRoomButtonsPool = new List<GameObject>();
 
         /// <summary>
         /// The Unity Awake() method.
@@ -98,30 +99,30 @@ namespace GoogleARCore.Examples.CloudAnchors
         public void Awake()
         {
             // Initialize the pool of Join Room buttons.
-            for (int i = 0; i < k_MatchPageSize; i++)
+            for (int i = 0; i < _matchPageSize; i++)
             {
                 GameObject button = Instantiate(JoinRoomListRowPrefab);
                 button.transform.SetParent(RoomListPanel.transform, false);
                 button.GetComponent<RectTransform>().anchoredPosition =
-                    new Vector2(0, -100 - (200 * i));
+                    new Vector2(0, -(100 * i));
                 button.SetActive(true);
                 button.GetComponentInChildren<Text>().text = string.Empty;
-                m_JoinRoomButtonsPool.Add(button);
+                _joinRoomButtonsPool.Add(button);
             }
 
 #pragma warning disable 618
-            m_Manager = GetComponent<NetworkManager>();
+            _manager = GetComponent<CloudAnchorsNetworkManager>();
 #pragma warning restore 618
-            m_Manager.StartMatchMaker();
-            m_Manager.matchMaker.ListMatches(
+            _manager.StartMatchMaker();
+            _manager.matchMaker.ListMatches(
                 startPageNumber: 0,
-                resultPageSize: k_MatchPageSize,
+                resultPageSize: _matchPageSize,
                 matchNameFilter: string.Empty,
                 filterOutPrivateMatchesFromResults: false,
                 eloScoreTarget: 0,
                 requestDomain: 0,
-                callback: _OnMatchList);
-            _ChangeLobbyUIVisibility(true);
+                callback: OnMatchList);
+            ChangeLobbyUIVisibility(true);
         }
 
         /// <summary>
@@ -129,9 +130,25 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// </summary>
         public void OnCreateRoomClicked()
         {
-            m_Manager.matchMaker.CreateMatch(m_Manager.matchName, m_Manager.matchSize,
+            _manager.matchMaker.CreateMatch(_manager.matchName, _manager.matchSize,
                                            true, string.Empty, string.Empty, string.Empty,
-                                           0, 0, _OnMatchCreate);
+                                           0, 0, OnMatchCreate);
+        }
+
+        /// <summary>
+        /// Handles a user intent to return to the lobby.
+        /// </summary>
+        public void OnReturnToLobbyClick()
+        {
+            ReturnButton.GetComponent<Button>().interactable = false;
+            if (_manager.matchInfo == null)
+            {
+                OnMatchDropped(true, null);
+                return;
+            }
+
+            _manager.matchMaker.DropConnection(_manager.matchInfo.networkId,
+                _manager.matchInfo.nodeId, _manager.matchInfo.domain, OnMatchDropped);
         }
 
         /// <summary>
@@ -139,14 +156,14 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// </summary>
         public void OnRefhreshRoomListClicked()
         {
-            m_Manager.matchMaker.ListMatches(
+            _manager.matchMaker.ListMatches(
                 startPageNumber: 0,
-                resultPageSize: k_MatchPageSize,
+                resultPageSize: _matchPageSize,
                 matchNameFilter: string.Empty,
                 filterOutPrivateMatchesFromResults: false,
                 eloScoreTarget: 0,
                 requestDomain: 0,
-                callback: _OnMatchList);
+                callback: OnMatchList);
         }
 
         /// <summary>
@@ -207,10 +224,10 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// <summary>
         /// Use the snackbar to display the error message.
         /// </summary>
-        /// <param name="errorMessage">The error message to be displayed on the snackbar.</param>
-        public void ShowErrorMessage(string errorMessage)
+        /// <param name="debugMessage">The debug message to be displayed on the snackbar.</param>
+        public void ShowDebugMessage(string debugMessage)
         {
-            SnackbarText.text = errorMessage;
+            SnackbarText.text = debugMessage;
         }
 
         /// <summary>
@@ -219,13 +236,12 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// <param name="match">The information about the match that the user intents to
         /// join.</param>
 #pragma warning disable 618
-        private void _OnJoinRoomClicked(MatchInfoSnapshot match)
+        private void OnJoinRoomClicked(MatchInfoSnapshot match)
 #pragma warning restore 618
         {
-            m_Manager.matchName = match.name;
-            m_Manager.matchMaker.JoinMatch(match.networkId, string.Empty, string.Empty,
-                                         string.Empty, 0, 0, _OnMatchJoined);
-            CloudAnchorsExampleController.OnEnterResolvingModeClick();
+            _manager.matchName = match.name;
+            _manager.matchMaker.JoinMatch(match.networkId, string.Empty, string.Empty,
+                                         string.Empty, 0, 0, OnMatchJoined);
         }
 
         /// <summary>
@@ -237,45 +253,47 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// <param name="matches">A list of matches corresponding to the filters set in the initial
         /// list request.</param>
 #pragma warning disable 618
-        private void _OnMatchList(
+        private void OnMatchList(
             bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
 #pragma warning restore 618
         {
-            m_Manager.OnMatchList(success, extendedInfo, matches);
             if (!success)
             {
                 SnackbarText.text = "Could not list matches: " + extendedInfo;
                 return;
             }
 
-            if (m_Manager.matches != null)
+            _manager.OnMatchList(success, extendedInfo, matches);
+            if (_manager.matches != null)
             {
                 // Reset all buttons in the pool.
-                foreach (GameObject button in m_JoinRoomButtonsPool)
+                foreach (GameObject button in _joinRoomButtonsPool)
                 {
                     button.SetActive(false);
                     button.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
                     button.GetComponentInChildren<Text>().text = string.Empty;
                 }
 
-                NoPreviousRoomsText.gameObject.SetActive(m_Manager.matches.Count == 0);
+                NoPreviousRoomsText.gameObject.SetActive(_manager.matches.Count == 0);
 
                 // Add buttons for each existing match.
                 int i = 0;
 #pragma warning disable 618
-                foreach (var match in m_Manager.matches)
+                foreach (var match in _manager.matches)
 #pragma warning restore 618
                 {
-                    if (i >= k_MatchPageSize)
+                    if (i >= _matchPageSize)
                     {
                         break;
                     }
 
-                    var text = "Room " + _GetRoomNumberFromNetworkId(match.networkId);
-                    GameObject button = m_JoinRoomButtonsPool[i++];
+                    var text = "Room " + GetRoomNumberFromNetworkId(match.networkId);
+                    GameObject button = _joinRoomButtonsPool[i++];
                     button.GetComponentInChildren<Text>().text = text;
                     button.GetComponentInChildren<Button>().onClick.AddListener(() =>
-                        _OnJoinRoomClicked(match));
+                        OnJoinRoomClicked(match));
+                    button.GetComponentInChildren<Button>().onClick.AddListener(
+                        CloudAnchorsExampleController.OnEnterResolvingModeClick);
                     button.SetActive(true);
                 }
             }
@@ -289,20 +307,20 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// <param name="extendedInfo">A text description for the error if success is false.</param>
         /// <param name="matchInfo">The information about the newly created match.</param>
 #pragma warning disable 618
-        private void _OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+        private void OnMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
 #pragma warning restore 618
         {
-            m_Manager.OnMatchCreate(success, extendedInfo, matchInfo);
             if (!success)
             {
                 SnackbarText.text = "Could not create match: " + extendedInfo;
                 return;
             }
 
-            m_CurrentRoomNumber = _GetRoomNumberFromNetworkId(matchInfo.networkId);
-            _ChangeLobbyUIVisibility(false);
-            SnackbarText.text = "Find a plane, tap to create a Cloud Anchor.";
-            CurrentRoomLabel.GetComponentInChildren<Text>().text = "Room: " + m_CurrentRoomNumber;
+            _manager.OnMatchCreate(success, extendedInfo, matchInfo);
+            _currentRoomNumber = GetRoomNumberFromNetworkId(matchInfo.networkId);
+            SnackbarText.text = "Connecting to server...";
+            ChangeLobbyUIVisibility(false);
+            CurrentRoomLabel.GetComponentInChildren<Text>().text = "Room: " + _currentRoomNumber;
         }
 
         /// <summary>
@@ -313,20 +331,43 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// <param name="extendedInfo">A text description for the error if success is false.</param>
         /// <param name="matchInfo">The info for the newly joined match.</param>
 #pragma warning disable 618
-        private void _OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
+        private void OnMatchJoined(bool success, string extendedInfo, MatchInfo matchInfo)
 #pragma warning restore 618
         {
-            m_Manager.OnMatchJoined(success, extendedInfo, matchInfo);
             if (!success)
             {
                 SnackbarText.text = "Could not join to match: " + extendedInfo;
                 return;
             }
 
-            m_CurrentRoomNumber = _GetRoomNumberFromNetworkId(matchInfo.networkId);
-            _ChangeLobbyUIVisibility(false);
-            SnackbarText.text = "Waiting for Cloud Anchor to be hosted...";
-            CurrentRoomLabel.GetComponentInChildren<Text>().text = "Room: " + m_CurrentRoomNumber;
+            _manager.OnMatchJoined(success, extendedInfo, matchInfo);
+            _currentRoomNumber = GetRoomNumberFromNetworkId(matchInfo.networkId);
+            SnackbarText.text = "Connecting to server...";
+            ChangeLobbyUIVisibility(false);
+            CurrentRoomLabel.GetComponentInChildren<Text>().text = "Room: " + _currentRoomNumber;
+        }
+
+        /// <summary>
+        /// Callback that happens when a <see cref="NetworkMatch.DropConnection"/> request has been
+        /// processed on the server.
+        /// </summary>
+        /// <param name="success">Indicates if the request succeeded.</param>
+        /// <param name="extendedInfo">A text description for the error if success is false.
+        /// </param>
+        private void OnMatchDropped(bool success, string extendedInfo)
+        {
+            ReturnButton.GetComponent<Button>().interactable = true;
+            if (!success)
+            {
+                SnackbarText.text = "Could not drop the match: " + extendedInfo;
+                return;
+            }
+
+            _manager.OnDropConnection(success, extendedInfo);
+#pragma warning disable 618
+            NetworkManager.Shutdown();
+#pragma warning restore 618
+            SceneManager.LoadScene("CloudAnchors");
         }
 
         /// <summary>
@@ -334,18 +375,18 @@ namespace GoogleARCore.Examples.CloudAnchors
         /// </summary>
         /// <param name="visible">If set to <c>true</c> the lobby UI will be visible. It will be
         /// hidden otherwise.</param>
-        private void _ChangeLobbyUIVisibility(bool visible)
+        private void ChangeLobbyUIVisibility(bool visible)
         {
-            LobbyScreen.gameObject.SetActive(visible);
-            CurrentRoomLabel.gameObject.SetActive(!visible);
-            foreach (GameObject button in m_JoinRoomButtonsPool)
+            foreach (GameObject button in _joinRoomButtonsPool)
             {
                 bool active = visible && button.GetComponentInChildren<Text>().text != string.Empty;
                 button.SetActive(active);
             }
+
+            CloudAnchorsExampleController.OnLobbyVisibilityChanged(visible);
         }
 
-        private string _GetRoomNumberFromNetworkId(NetworkID networkID)
+        private string GetRoomNumberFromNetworkId(NetworkID networkID)
         {
             return (System.Convert.ToInt64(networkID.ToString()) % 10000).ToString();
         }

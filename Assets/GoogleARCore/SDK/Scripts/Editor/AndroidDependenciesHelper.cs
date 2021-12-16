@@ -1,7 +1,7 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="AndroidDependenciesHelper.cs" company="Google">
+//-----------------------------------------------------------------------
+// <copyright file="AndroidDependenciesHelper.cs" company="Google LLC">
 //
-// Copyright 2019 Google Inc. All Rights Reserved.
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,19 +21,119 @@
 namespace GoogleARCoreInternal
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
+    using GoogleARCore;
     using UnityEditor;
+    using UnityEditor.SceneManagement;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     /// <summary>
-    /// This handles the addition and removal android dependencies, and run PlayServicesResolver
-    /// plugin.
+    /// This handles the addition and removal android dependencies, and run
+    /// ExternalDependencyManager plugin.
     /// </summary>
     internal static class AndroidDependenciesHelper
     {
-        private static readonly string k_TemplateFileExtension = ".template";
-        private static readonly string k_PlayServiceDependencyFileExtension = ".xml";
+        private static readonly string _templateFileExtension = ".template";
+        private static readonly string _playServiceDependencyFileExtension = ".xml";
+
+        /// <summary>
+        /// Gets all session configs from active scenes.
+        /// </summary>
+        /// <returns>A dictionary contains session config to scene path mapping.</returns>
+        public static Dictionary<ARCoreSessionConfig, string> GetAllSessionConfigs()
+        {
+            Dictionary<ARCoreSessionConfig, string> sessionToPathMap =
+                new Dictionary<ARCoreSessionConfig, string>();
+            EditorBuildSettingsScene[] scenes = EditorBuildSettings.scenes;
+            foreach (EditorBuildSettingsScene editorScene in EditorBuildSettings.scenes)
+            {
+                if (editorScene.enabled)
+                {
+                    Scene scene = SceneManager.GetSceneByPath(editorScene.path);
+                    if (!scene.isLoaded)
+                    {
+                        scene = EditorSceneManager.OpenScene(
+                            editorScene.path, OpenSceneMode.Additive);
+                    }
+
+                    foreach (GameObject gameObject in scene.GetRootGameObjects())
+                    {
+                        ARCoreSession sessionComponent =
+                            (ARCoreSession)gameObject.GetComponentInChildren(
+                                typeof(ARCoreSession));
+                        if (sessionComponent != null)
+                        {
+                            if (!sessionToPathMap.ContainsKey(sessionComponent.SessionConfig))
+                            {
+                                sessionToPathMap.Add(
+                                    sessionComponent.SessionConfig, editorScene.path);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return sessionToPathMap;
+        }
+
+        /// <summary>
+        /// Gets the JDK path used by this project.
+        /// </summary>
+        /// <returns>If found, returns the JDK path used by this project. Otherwise, returns null.
+        /// </returns>
+        public static string GetJdkPath()
+        {
+            string jdkPath = null;
+
+            // Unity started offering the embedded JDK in 2018.3
+#if UNITY_2018_3_OR_NEWER
+            if (EditorPrefs.GetBool("JdkUseEmbedded"))
+            {
+                // Use OpenJDK that is bundled with Unity. JAVA_HOME will be set when
+                // 'Preferences > External Tools > Android > JDK installed with Unity' is checked.
+                jdkPath = Environment.GetEnvironmentVariable("JAVA_HOME");
+                if (string.IsNullOrEmpty(jdkPath))
+                {
+                    Debug.LogError(
+                        "'Preferences > External Tools > Android > JDK installed with Unity' is " +
+                        "checked, but JAVA_HOME is unset or empty. Try unchecking this setting " +
+                        "and configuring a valid JDK path under " +
+                        "'Preferences > External Tools > Android > JDK'.");
+                }
+            }
+            else
+#endif // UNITY_2018_3_OR_NEWER
+            {
+                // Use JDK path specified by 'Preferences > External Tools > Android > JDK'.
+                jdkPath = EditorPrefs.GetString("JdkPath");
+                if (string.IsNullOrEmpty(jdkPath))
+                {
+                    // Use JAVA_HOME from the O/S environment.
+                    jdkPath = Environment.GetEnvironmentVariable("JAVA_HOME");
+                    if (string.IsNullOrEmpty(jdkPath))
+                    {
+                        Debug.LogError(
+                            "'Preferences > External Tools > Android > JDK installed with Unity' " +
+                            "is unchecked, but 'Preferences > External Tools > Android > JDK' " +
+                            "path is empty and JAVA_HOME environment variable is unset or empty.");
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(jdkPath) &&
+                (File.GetAttributes(jdkPath) & FileAttributes.Directory) == 0)
+            {
+                Debug.LogError(string.Format("Invalid JDK path '{0}'", jdkPath));
+                jdkPath = null;
+            }
+
+            return jdkPath;
+        }
 
         /// <summary>
         /// Handle the updating of the AndroidManifest tags by enabling/disabling the dependencies
@@ -64,9 +164,9 @@ namespace GoogleARCoreInternal
         }
 
         /// <summary>
-        /// Handle the addition or removal Android dependencies using the PlayServicesResolver.
+        /// Handle the addition or removal Android dependencies using the ExternalDependencyManager.
         /// Adding the dependencies is done by renaming the dependencies .template file to a .xml
-        /// file so that it will be picked up by the PlayServicesResolver plugin.
+        /// file so that it will be picked up by the ExternalDependencyManager plugin.
         /// </summary>
         /// <param name="enabledDependencies">If set to <c>true</c> enabled dependencies.</param>
         /// <param name="dependenciesTemplateGuid">Dependencies template GUID.</param>
@@ -78,12 +178,13 @@ namespace GoogleARCoreInternal
             if (dependenciesTemplatePath == null)
             {
                 Debug.LogError(
-                    "Failed to enable ARCore Android dependencies xml. Template file is missing.");
+                    "Failed to enable ARCore SDK for Unity Android dependencies xml. " +
+                    "Template file is missing.");
                 return;
             }
 
             string dependenciesXMLPath = dependenciesTemplatePath.Replace(
-                k_TemplateFileExtension, k_PlayServiceDependencyFileExtension);
+                _templateFileExtension, _playServiceDependencyFileExtension);
 
             if (enabledDependencies && !File.Exists(dependenciesXMLPath))
             {
@@ -145,12 +246,13 @@ namespace GoogleARCoreInternal
                             BindingFlags.Public | BindingFlags.Static);
                         if (menuResolveMethod == null)
                         {
-                            Debug.LogErrorFormat("ARCore: Error finding public static method " +
-                                "{0} on {1}.{2}.", methodName, namespaceName, className);
+                            Debug.LogErrorFormat("ARCore SDK for Unity: Error finding public " +
+                                                 "static method {0} on {1}.{2}.",
+                                                 methodName, namespaceName, className);
                             return;
                         }
 
-                        Debug.LogFormat("ARCore: Invoking {0}.{1}.{2}()",
+                        Debug.LogFormat("ARCore SDK for Unity: Invoking {0}.{1}.{2}()",
                             namespaceName, className, methodName);
                         menuResolveMethod.Invoke(null, null);
                         return;
@@ -158,7 +260,8 @@ namespace GoogleARCoreInternal
                 }
             }
 
-            Debug.LogFormat("ARCore: Could not find class {0}.{1} for dependency resolution.",
+            Debug.LogFormat("ARCore SDK for Unity: " +
+                            "Could not find class {0}.{1} for dependency resolution.",
                 namespaceName, className);
         }
     }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf87d8fe91abd4488cb6ade487f0afa, type: 3}
+  m_Name: RockHitHigh
+  m_EditorClassIdentifier:
+  volume: 1
+  sourceType: 0
+  subEvents: []
+  clips:
+  - {fileID: 8300000, guid: 85fd2cbb995855f429e8a8c9d9ad8546, type: 3}
+  - {fileID: 8300000, guid: f28f6d93f0ec08b40b6ab7add7843038, type: 3}
+  - {fileID: 8300000, guid: b6830dfd7026db3478ed7d733c93a1d1, type: 3}

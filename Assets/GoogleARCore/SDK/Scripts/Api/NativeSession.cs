@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
-// <copyright file="NativeSession.cs" company="Google">
+// <copyright file="NativeSession.cs" company="Google LLC">
 //
-// Copyright 2017 Google Inc. All Rights Reserved.
+// Copyright 2017 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,21 +28,17 @@ namespace GoogleARCoreInternal
 
     internal class NativeSession
     {
-#pragma warning disable 414
-        private static bool s_ReportedEngineType = false;
-#pragma warning restore 414
+        private PointCloudManager _pointCloudManager = null;
 
-        private PointCloudManager m_PointCloudManager = null;
-
-        private TrackableManager m_TrackableManager = null;
+        private TrackableManager _trackableManager = null;
 
         public NativeSession(IntPtr sessionHandle, IntPtr frameHandle)
         {
             IsDestroyed = false;
             SessionHandle = sessionHandle;
             FrameHandle = frameHandle;
-            m_PointCloudManager = new PointCloudManager(this);
-            m_TrackableManager = new TrackableManager(this);
+            _pointCloudManager = new PointCloudManager(this);
+            _trackableManager = new TrackableManager(this);
 
             AnchorApi = new AnchorApi(this);
             AugmentedFaceApi = new AugmentedFaceApi(this);
@@ -50,27 +46,30 @@ namespace GoogleARCoreInternal
             AugmentedImageDatabaseApi = new AugmentedImageDatabaseApi(this);
             CameraApi = new CameraApi(this);
             CameraConfigApi = new CameraConfigApi(this);
+            CameraConfigFilterApi = new CameraConfigFilterApi(this);
             CameraConfigListApi = new CameraConfigListApi(this);
             CameraMetadataApi = new CameraMetadataApi(this);
             FrameApi = new FrameApi(this);
             HitTestApi = new HitTestApi(this);
-            ImageApi = new ImageApi();
+            ImageApi = new ImageApi(this);
             LightEstimateApi = new LightEstimateApi(this);
             PlaneApi = new PlaneApi(this);
             PointApi = new PointApi(this);
             PointCloudApi = new PointCloudApi(this);
             PoseApi = new PoseApi(this);
+            RecordingConfigApi = new RecordingConfigApi(this);
+            TrackApi = new TrackApi(this);
+            TrackDataApi = new TrackDataApi(this);
+            TrackDataListApi = new TrackDataListApi(this);
             SessionApi = new SessionApi(this);
             SessionConfigApi = new SessionConfigApi(this);
             TrackableApi = new TrackableApi(this);
             TrackableListApi = new TrackableListApi(this);
 
 #if !UNITY_EDITOR
-            if (!s_ReportedEngineType)
-            {
-                SessionApi.ReportEngineType();
-                s_ReportedEngineType = true;
-            }
+            // Engine type is per session. Hence setting it for each
+            // native session.
+            SessionApi.ReportEngineType();
 #endif
         }
 
@@ -84,7 +83,7 @@ namespace GoogleARCoreInternal
         {
             get
             {
-                return m_PointCloudManager.PointCloudHandle;
+                return _pointCloudManager.PointCloudHandle;
             }
         }
 
@@ -92,7 +91,7 @@ namespace GoogleARCoreInternal
         {
             get
             {
-                return m_PointCloudManager.IsPointCloudNew;
+                return _pointCloudManager.IsPointCloudNew;
             }
         }
 
@@ -107,6 +106,8 @@ namespace GoogleARCoreInternal
         public CameraApi CameraApi { get; private set; }
 
         public CameraConfigApi CameraConfigApi { get; private set; }
+
+        public CameraConfigFilterApi CameraConfigFilterApi { get; private set; }
 
         public CameraConfigListApi CameraConfigListApi { get; private set; }
 
@@ -128,6 +129,14 @@ namespace GoogleARCoreInternal
 
         public PoseApi PoseApi { get; private set; }
 
+        public RecordingConfigApi RecordingConfigApi { get; private set; }
+
+        public TrackApi TrackApi { get; private set; }
+
+        public TrackDataApi TrackDataApi { get; private set; }
+
+        public TrackDataListApi TrackDataListApi { get; private set; }
+
         public SessionApi SessionApi { get; private set; }
 
         public SessionConfigApi SessionConfigApi { get; private set; }
@@ -138,19 +147,19 @@ namespace GoogleARCoreInternal
 
         public Trackable TrackableFactory(IntPtr nativeHandle)
         {
-            return m_TrackableManager.TrackableFactory(nativeHandle);
+            return _trackableManager.TrackableFactory(nativeHandle);
         }
 
         public void GetTrackables<T>(List<T> trackables, TrackableQueryFilter filter)
             where T : Trackable
         {
-            m_TrackableManager.GetTrackables<T>(trackables, filter);
+            _trackableManager.GetTrackables<T>(trackables, filter);
         }
 
         public void OnUpdate(IntPtr frameHandle)
         {
             FrameHandle = frameHandle;
-            m_PointCloudManager.OnUpdate();
+            _pointCloudManager.OnUpdate();
         }
 
         public void MarkDestroyed()

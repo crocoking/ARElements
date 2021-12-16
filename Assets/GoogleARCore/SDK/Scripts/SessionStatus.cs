@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
-// <copyright file="SessionStatus.cs" company="Google">
+// <copyright file="SessionStatus.cs" company="Google LLC">
 //
-// Copyright 2017 Google Inc. All Rights Reserved.
+// Copyright 2017 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,19 +56,49 @@ namespace GoogleARCore
         FatalError = 200,
 
         /// <summary>
-        /// The ARCore session cannot begin tracking because the ARCore service APK is not available on the device.
+        /// The ARCore session cannot begin tracking because the ARCore service APK is not available
+        /// on the device.
         /// </summary>
         ErrorApkNotAvailable = 201,
 
         /// <summary>
-        /// The ARCore session cannot begin tracking because the Android camera permission is not granted.
+        /// The ARCore session cannot begin tracking because an Android permission, such as
+        /// android.permission.CAMERA, is not granted.
+        ///
+        /// Use <c><see cref="AndroidPermissionsManager.IsPermissionGranted"/></c> to check if
+        /// the required Android permission has been granted.
         /// </summary>
         ErrorPermissionNotGranted = 202,
 
         /// <summary>
-        /// The ARCore session cannot begin tracking because the session configuration supplied is not supported or no
-        /// session configuration was supplied.
+        /// The ARCore session cannot begin tracking because the session configuration supplied is
+        /// not supported or no session configuration was supplied.
+        ///
+        /// To recover, fix the configuration and ensure ARCoreSession is not enabled. Once
+        /// SessionStatus is SessionStatus.NotTracking, ARCoreSession can be enabled.
         /// </summary>
         ErrorSessionConfigurationNotSupported = 203,
+
+        /// <summary>
+        /// The ARCore session cannot begin tracking because the camera has been reallocated to
+        /// a higher priority application or is otherwise unavailable.
+        /// </summary>
+        ErrorCameraNotAvailable = 204,
+
+        /// <summary>
+        /// The ARCore session cannot begin tracking because the camera configuration was changed,
+        /// and there is at least one unreleased image.
+        /// </summary>
+        ErrorIllegalState = 205,
+
+        /// <summary>
+        /// The ARCore session failed to set a camera config. Returned when no supported
+        /// camera config exists for the given
+        /// <c><see cref="ARCoreSession.CameraConfigFilter"/></c>.
+        ///
+        /// To recover, try a less restrictive filter and then enable the
+        /// <c><see cref="ARCoreSession"/></c> again.
+        /// </summary>
+        ErrorInvalidCameraConfig = 206,
     }
 }

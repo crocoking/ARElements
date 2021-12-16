@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
-// <copyright file="AnchorApi.cs" company="Google">
+// <copyright file="AnchorApi.cs" company="Google LLC">
 //
-// Copyright 2017 Google Inc. All Rights Reserved.
+// Copyright 2017 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,31 +23,37 @@ namespace GoogleARCoreInternal
     using System;
     using System.Runtime.InteropServices;
     using GoogleARCore;
+    using GoogleARCore.CrossPlatform;
     using GoogleARCoreInternal.CrossPlatform;
     using UnityEngine;
 
     internal class AnchorApi
     {
-        private NativeSession m_NativeSession;
+        private NativeSession _nativeSession;
 
         public AnchorApi(NativeSession nativeSession)
         {
-            m_NativeSession = nativeSession;
+            _nativeSession = nativeSession;
+        }
+
+        public static void Release(IntPtr anchorHandle)
+        {
+            ExternApi.ArAnchor_release(anchorHandle);
         }
 
         public Pose GetPose(IntPtr anchorHandle)
         {
-            var poseHandle = m_NativeSession.PoseApi.Create();
-            ExternApi.ArAnchor_getPose(m_NativeSession.SessionHandle, anchorHandle, poseHandle);
-            Pose resultPose = m_NativeSession.PoseApi.ExtractPoseValue(poseHandle);
-            m_NativeSession.PoseApi.Destroy(poseHandle);
+            var poseHandle = _nativeSession.PoseApi.Create();
+            ExternApi.ArAnchor_getPose(_nativeSession.SessionHandle, anchorHandle, poseHandle);
+            Pose resultPose = _nativeSession.PoseApi.ExtractPoseValue(poseHandle);
+            _nativeSession.PoseApi.Destroy(poseHandle);
             return resultPose;
         }
 
         public TrackingState GetTrackingState(IntPtr anchorHandle)
         {
             ApiTrackingState trackingState = ApiTrackingState.Stopped;
-            ExternApi.ArAnchor_getTrackingState(m_NativeSession.SessionHandle, anchorHandle,
+            ExternApi.ArAnchor_getTrackingState(_nativeSession.SessionHandle, anchorHandle,
                 ref trackingState);
             return trackingState.ToTrackingState();
         }
@@ -56,7 +62,7 @@ namespace GoogleARCoreInternal
         {
             ApiCloudAnchorState cloudState = ApiCloudAnchorState.None;
             ExternApi.ArAnchor_getCloudAnchorState(
-                m_NativeSession.SessionHandle, anchorHandle, ref cloudState);
+                _nativeSession.SessionHandle, anchorHandle, ref cloudState);
             return cloudState;
         }
 
@@ -64,7 +70,7 @@ namespace GoogleARCoreInternal
         {
             IntPtr cloudIdHandle = IntPtr.Zero;
             ExternApi.ArAnchor_acquireCloudAnchorId(
-                m_NativeSession.SessionHandle, anchorHandle, ref cloudIdHandle);
+                _nativeSession.SessionHandle, anchorHandle, ref cloudIdHandle);
 
             var result = Marshal.PtrToStringAnsi(cloudIdHandle);
             ExternApi.ArString_release(cloudIdHandle);
@@ -73,21 +79,16 @@ namespace GoogleARCoreInternal
 
         public void Detach(IntPtr anchorHandle)
         {
-            if (LifecycleManager.Instance.NativeSession == m_NativeSession)
+            if (LifecycleManager.Instance.NativeSession == _nativeSession)
             {
-                ExternApi.ArAnchor_detach(m_NativeSession.SessionHandle, anchorHandle);
+                ExternApi.ArAnchor_detach(_nativeSession.SessionHandle, anchorHandle);
             }
-        }
-
-        public void Release(IntPtr anchorHandle)
-        {
-            ExternApi.ArAnchor_release(anchorHandle);
         }
 
         public IntPtr CreateList()
         {
             IntPtr listHandle = IntPtr.Zero;
-            ExternApi.ArAnchorList_create(m_NativeSession.SessionHandle, ref listHandle);
+            ExternApi.ArAnchorList_create(_nativeSession.SessionHandle, ref listHandle);
             return listHandle;
         }
 
@@ -95,7 +96,7 @@ namespace GoogleARCoreInternal
         {
             int size = 0;
             ExternApi.ArAnchorList_getSize(
-                m_NativeSession.SessionHandle, anchorListHandle, ref size);
+                _nativeSession.SessionHandle, anchorListHandle, ref size);
             return size;
         }
 
@@ -103,7 +104,7 @@ namespace GoogleARCoreInternal
         {
             IntPtr anchorHandle = IntPtr.Zero;
             ExternApi.ArAnchorList_acquireItem(
-                m_NativeSession.SessionHandle, anchorListHandle, index, ref anchorHandle);
+                _nativeSession.SessionHandle, anchorListHandle, index, ref anchorHandle);
             return anchorHandle;
         }
 

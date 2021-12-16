@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
-// <copyright file="DetectedPlaneVisualizer.cs" company="Google">
+// <copyright file="DetectedPlaneVisualizer.cs" company="Google LLC">
 //
-// Copyright 2017 Google Inc. All Rights Reserved.
+// Copyright 2017 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,49 +29,28 @@ namespace GoogleARCore.Examples.Common
     /// </summary>
     public class DetectedPlaneVisualizer : MonoBehaviour
     {
-        private static int s_PlaneCount = 0;
-
-        private readonly Color[] k_PlaneColors = new Color[]
-        {
-            new Color(1.0f, 1.0f, 1.0f),
-            new Color(0.956f, 0.262f, 0.211f),
-            new Color(0.913f, 0.117f, 0.388f),
-            new Color(0.611f, 0.152f, 0.654f),
-            new Color(0.403f, 0.227f, 0.717f),
-            new Color(0.247f, 0.317f, 0.709f),
-            new Color(0.129f, 0.588f, 0.952f),
-            new Color(0.011f, 0.662f, 0.956f),
-            new Color(0f, 0.737f, 0.831f),
-            new Color(0f, 0.588f, 0.533f),
-            new Color(0.298f, 0.686f, 0.313f),
-            new Color(0.545f, 0.764f, 0.290f),
-            new Color(0.803f, 0.862f, 0.223f),
-            new Color(1.0f, 0.921f, 0.231f),
-            new Color(1.0f, 0.756f, 0.027f)
-        };
-
-        private DetectedPlane m_DetectedPlane;
+        private DetectedPlane _detectedPlane;
 
         // Keep previous frame's mesh polygon to avoid mesh update every frame.
-        private List<Vector3> m_PreviousFrameMeshVertices = new List<Vector3>();
-        private List<Vector3> m_MeshVertices = new List<Vector3>();
-        private Vector3 m_PlaneCenter = new Vector3();
+        private List<Vector3> _previousFrameMeshVertices = new List<Vector3>();
+        private List<Vector3> _meshVertices = new List<Vector3>();
+        private Vector3 _planeCenter = new Vector3();
 
-        private List<Color> m_MeshColors = new List<Color>();
+        private List<Color> _meshColors = new List<Color>();
 
-        private List<int> m_MeshIndices = new List<int>();
+        private List<int> _meshIndices = new List<int>();
 
-        private Mesh m_Mesh;
+        private Mesh _mesh;
 
-        private MeshRenderer m_MeshRenderer;
+        private MeshRenderer _meshRenderer;
 
         /// <summary>
         /// The Unity Awake() method.
         /// </summary>
         public void Awake()
         {
-            m_Mesh = GetComponent<MeshFilter>().mesh;
-            m_MeshRenderer = GetComponent<UnityEngine.MeshRenderer>();
+            _mesh = GetComponent<MeshFilter>().mesh;
+            _meshRenderer = GetComponent<UnityEngine.MeshRenderer>();
         }
 
         /// <summary>
@@ -79,24 +58,24 @@ namespace GoogleARCore.Examples.Common
         /// </summary>
         public void Update()
         {
-            if (m_DetectedPlane == null)
+            if (_detectedPlane == null)
             {
                 return;
             }
-            else if (m_DetectedPlane.SubsumedBy != null)
+            else if (_detectedPlane.SubsumedBy != null)
             {
                 Destroy(gameObject);
                 return;
             }
-            else if (m_DetectedPlane.TrackingState != TrackingState.Tracking)
+            else if (_detectedPlane.TrackingState != TrackingState.Tracking)
             {
-                 m_MeshRenderer.enabled = false;
-                 return;
+                _meshRenderer.enabled = false;
+                return;
             }
 
-            m_MeshRenderer.enabled = true;
+            _meshRenderer.enabled = true;
 
-            _UpdateMeshIfNeeded();
+            UpdateMeshIfNeeded();
         }
 
         /// <summary>
@@ -105,10 +84,9 @@ namespace GoogleARCore.Examples.Common
         /// <param name="plane">The plane to vizualize.</param>
         public void Initialize(DetectedPlane plane)
         {
-            m_DetectedPlane = plane;
-            m_MeshRenderer.material.SetColor(
-                "_GridColor", k_PlaneColors[s_PlaneCount++ % k_PlaneColors.Length]);
-            m_MeshRenderer.material.SetFloat("_UvRotation", Random.Range(0.0f, 360.0f));
+            _detectedPlane = plane;
+            _meshRenderer.material.SetColor("_GridColor", Color.white);
+            _meshRenderer.material.SetFloat("_UvRotation", Random.Range(0.0f, 360.0f));
 
             Update();
         }
@@ -116,25 +94,25 @@ namespace GoogleARCore.Examples.Common
         /// <summary>
         /// Update mesh with a list of Vector3 and plane's center position.
         /// </summary>
-        private void _UpdateMeshIfNeeded()
+        private void UpdateMeshIfNeeded()
         {
-            m_DetectedPlane.GetBoundaryPolygon(m_MeshVertices);
+            _detectedPlane.GetBoundaryPolygon(_meshVertices);
 
-            if (_AreVerticesListsEqual(m_PreviousFrameMeshVertices, m_MeshVertices))
+            if (AreVerticesListsEqual(_previousFrameMeshVertices, _meshVertices))
             {
                 return;
             }
 
-            m_PreviousFrameMeshVertices.Clear();
-            m_PreviousFrameMeshVertices.AddRange(m_MeshVertices);
+            _previousFrameMeshVertices.Clear();
+            _previousFrameMeshVertices.AddRange(_meshVertices);
 
-            m_PlaneCenter = m_DetectedPlane.CenterPose.position;
+            _planeCenter = _detectedPlane.CenterPose.position;
 
-            Vector3 planeNormal = m_DetectedPlane.CenterPose.rotation * Vector3.up;
+            Vector3 planeNormal = _detectedPlane.CenterPose.rotation * Vector3.up;
 
-            m_MeshRenderer.material.SetVector("_PlaneNormal", planeNormal);
+            _meshRenderer.material.SetVector("_PlaneNormal", planeNormal);
 
-            int planePolygonCount = m_MeshVertices.Count;
+            int planePolygonCount = _meshVertices.Count;
 
             // The following code converts a polygon to a mesh with two polygons, inner polygon
             // renders with 100% opacity and fade out to outter polygon with opacity 0%, as shown
@@ -146,12 +124,12 @@ namespace GoogleARCore.Examples.Common
             // |             |      | |         | |
             // |             |      |7-----------6|
             // ---------------     3---------------2
-            m_MeshColors.Clear();
+            _meshColors.Clear();
 
             // Fill transparent color to vertices 0 to 3.
             for (int i = 0; i < planePolygonCount; ++i)
             {
-                m_MeshColors.Add(Color.clear);
+                _meshColors.Add(Color.clear);
             }
 
             // Feather distance 0.2 meters.
@@ -163,27 +141,27 @@ namespace GoogleARCore.Examples.Common
             // Add vertex 4 to 7.
             for (int i = 0; i < planePolygonCount; ++i)
             {
-                Vector3 v = m_MeshVertices[i];
+                Vector3 v = _meshVertices[i];
 
                 // Vector from plane center to current point
-                Vector3 d = v - m_PlaneCenter;
+                Vector3 d = v - _planeCenter;
 
                 float scale = 1.0f - Mathf.Min(featherLength / d.magnitude, featherScale);
-                m_MeshVertices.Add((scale * d) + m_PlaneCenter);
+                _meshVertices.Add((scale * d) + _planeCenter);
 
-                m_MeshColors.Add(Color.white);
+                _meshColors.Add(Color.white);
             }
 
-            m_MeshIndices.Clear();
+            _meshIndices.Clear();
             int firstOuterVertex = 0;
             int firstInnerVertex = planePolygonCount;
 
             // Generate triangle (4, 5, 6) and (4, 6, 7).
             for (int i = 0; i < planePolygonCount - 2; ++i)
             {
-                m_MeshIndices.Add(firstInnerVertex);
-                m_MeshIndices.Add(firstInnerVertex + i + 1);
-                m_MeshIndices.Add(firstInnerVertex + i + 2);
+                _meshIndices.Add(firstInnerVertex);
+                _meshIndices.Add(firstInnerVertex + i + 1);
+                _meshIndices.Add(firstInnerVertex + i + 2);
             }
 
             // Generate triangle (0, 1, 4), (4, 1, 5), (5, 1, 2), (5, 2, 6), (6, 2, 3), (6, 3, 7)
@@ -195,22 +173,22 @@ namespace GoogleARCore.Examples.Common
                 int innerVertex1 = firstInnerVertex + i;
                 int innerVertex2 = firstInnerVertex + ((i + 1) % planePolygonCount);
 
-                m_MeshIndices.Add(outerVertex1);
-                m_MeshIndices.Add(outerVertex2);
-                m_MeshIndices.Add(innerVertex1);
+                _meshIndices.Add(outerVertex1);
+                _meshIndices.Add(outerVertex2);
+                _meshIndices.Add(innerVertex1);
 
-                m_MeshIndices.Add(innerVertex1);
-                m_MeshIndices.Add(outerVertex2);
-                m_MeshIndices.Add(innerVertex2);
+                _meshIndices.Add(innerVertex1);
+                _meshIndices.Add(outerVertex2);
+                _meshIndices.Add(innerVertex2);
             }
 
-            m_Mesh.Clear();
-            m_Mesh.SetVertices(m_MeshVertices);
-            m_Mesh.SetTriangles(m_MeshIndices, 0);
-            m_Mesh.SetColors(m_MeshColors);
+            _mesh.Clear();
+            _mesh.SetVertices(_meshVertices);
+            _mesh.SetTriangles(_meshIndices, 0);
+            _mesh.SetColors(_meshColors);
         }
 
-        private bool _AreVerticesListsEqual(List<Vector3> firstList, List<Vector3> secondList)
+        private bool AreVerticesListsEqual(List<Vector3> firstList, List<Vector3> secondList)
         {
             if (firstList.Count != secondList.Count)
             {
